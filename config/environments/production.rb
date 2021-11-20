@@ -72,12 +72,12 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV['MACHASIA_SMTP_ADDR'],
-    port: ENV['MACHASIA_SMTP_PORT'] || 587,
-    domain: ENV['MACHASIA_SMTP_DOMAIN'],
-    user_name: ENV['MACHASIA_SMTP_USERNAME'],
-    password: ENV['MACHASIA_SMTP_PASSWORD'],
-    authentication: ENV['MACHASIA_SMTP_AUTHTYPE'] || 'plain',
+    address: ENV['MATCHASIA_SMTP_ADDR'],
+    port: ENV['MATCHASIA_SMTP_PORT'] || 587,
+    domain: ENV['MATCHASIA_SMTP_DOMAIN'],
+    user_name: ENV['MATCHASIA_SMTP_USERNAME'],
+    password: ENV['MATCHASIA_SMTP_PASSWORD'],
+    authentication: ENV['MATCHASIA_SMTP_AUTHTYPE'] || 'plain',
     enable_starttls_auto: true
   }
   

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Devise.setup do |config|
-  config.mailer_sender = ENV['MACHASIA_SMTP_MAILFROM']
+  config.mailer_sender = ENV['MATCHASIA_SMTP_MAILFROM']
   require 'devise/orm/active_record'
   config.case_insensitive_keys = [:email]
   config.strip_whitespace_keys = [:email]

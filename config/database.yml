@@ -5,16 +5,16 @@ default: &default
 
 development:
   <<: *default
-  database: machasia_development
-  username: <%= ENV['MACHASIA_DB_USERNAME'] %>
-  password: <%= ENV['MACHASIA_DB_PASSWORD'] %>
+  database: matchasia_development
+  username: <%= ENV['MATCHASIA_DB_USERNAME'] %>
+  password: <%= ENV['MATCHASIA_DB_PASSWORD'] %>
   host: db
 
 test:
   <<: *default
-  database: machasia_test
-  username: <%= ENV['MACHASIA_DB_USERNAME'] %>
-  password: <%= ENV['MACHASIA_DB_PASSWORD'] %>
+  database: matchasia_test
+  username: <%= ENV['MATCHASIA_DB_USERNAME'] %>
+  password: <%= ENV['MATCHASIA_DB_PASSWORD'] %>
   host: db
 
 production:
