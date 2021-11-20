@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: machasia_development
+  username: <%= ENV['MACHASIA_DB_USERNAME'] %>
+  password: <%= ENV['MACHASIA_DB_PASSWORD'] %>
+  host: db
+
+test:
+  <<: *default
+  database: machasia_test
+  username: <%= ENV['MACHASIA_DB_USERNAME'] %>
+  password: <%= ENV['MACHASIA_DB_PASSWORD'] %>
+  host: db
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
