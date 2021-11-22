@@ -11,4 +11,10 @@ class Student < ApplicationRecord
       only_integer: true,
       greater_than_or_equal_to: 0
     }
+
+  INSTANT_TICKET_PRODUCTS = {
+    1 => { amount: 2200, currency: 'jpy', description: 'チケット1枚' },
+    3 => { amount: 5500, currency: 'jpy', description: 'チケット3枚' },
+    5 => { amount: 8250, currency: 'jpy', description: 'チケット5枚' }
+  }
 end
