@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :admins
+  devise_for :teachers
   devise_for :students, controllers: {
     registrations: 'students/registrations',
   }
