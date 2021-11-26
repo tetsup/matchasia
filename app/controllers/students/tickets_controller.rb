@@ -1,10 +1,10 @@
-class StudentsController < ApplicationController
+class Students::TicketsController < ApplicationController
   before_action :authenticate_student!
 
-  def new_tickets
+  def new
   end
 
-  def add_tickets
+  def create
     ticket_qty = params[:qty].to_i
     product = Student::INSTANT_TICKET_PRODUCTS[ticket_qty]
     customer = Stripe::Customer.create({
@@ -19,10 +19,10 @@ class StudentsController < ApplicationController
     })
     current_student.tickets += ticket_qty
     current_student.save!
-    redirect_to new_tickets_students_path, notice: 'チケットを購入しました'
+    redirect_to new_students_tickets_path, notice: 'チケットを購入しました'
   rescue Stripe::CardError => e
     flash[:error] = e.message
-    redirect_to new_tickets_students_path
+    redirect_to new_students_tickets_path
   end
 
 end

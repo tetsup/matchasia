@@ -6,7 +6,7 @@
   %p
     = p[:description]
     = " - 価格(税込): #{p[:amount]}(#{p[:currency]})"
-    = form_tag add_tickets_students_path do
+    = form_tag students_tickets_path do
       = hidden_field_tag :qty, qty
       %script.stripe-button{
         'data-amount' => "#{p[:amount]}",
