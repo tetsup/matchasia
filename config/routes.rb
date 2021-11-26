@@ -10,4 +10,11 @@ Rails.application.routes.draw do
   namespace :students do
     resource :tickets, only: [:new, :create]
   end
+  namespace :admins do
+    resources :teachers, only: [:index, :destroy] do
+      member do
+        post :become
+      end
+    end
+  end
 end
