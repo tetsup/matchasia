@@ -3,18 +3,18 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.4'
 
-gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
+gem 'bootsnap', require: false
+gem 'devise'
+gem 'haml-rails'
+gem 'jbuilder'
 gem 'pg'
 gem 'puma'
+gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 gem 'sass-rails'
-gem 'webpacker', '~> 5.0'
-gem 'turbolinks'
-gem 'jbuilder'
-gem 'bootsnap', require: false
-gem 'haml-rails'
 gem 'simple_form'
-gem 'devise'
 gem 'stripe'
+gem 'turbolinks'
+gem 'webpacker', '~> 5.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -22,12 +22,12 @@ group :development, :test do
 end
 
 group :development do
-  gem 'web-console'
-  gem 'rack-mini-profiler'
   gem 'listen'
-  gem 'spring'
   gem 'pry-byebug'
+  gem 'rack-mini-profiler'
   gem 'sgcop', github: 'SonicGarden/sgcop'
+  gem 'spring'
+  gem 'web-console'
 end
 
 group :test do
