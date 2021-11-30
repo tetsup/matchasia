@@ -6,5 +6,5 @@ class Teacher < ApplicationRecord
     length: { in: 3..20 },
     format: { with: /\A[a-zA-Z]+\z/ },
     uniqueness: true
-     
+  has_many :lessons, dependent: :destroy
 end

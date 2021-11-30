@@ -1,0 +1,14 @@
+= link_to '新規作成', new_teachers_lesson_path
+%table
+  %tr
+    %th 開始日時
+    %th 言語
+    %th 受講者
+  - @lessons.each do |lesson|
+    %tr
+      %td
+        = lesson.start_time.to_s(:datetime_jp)
+      %td
+        = lesson.language.name
+      %td
+        = lesson.reserve_student&.username

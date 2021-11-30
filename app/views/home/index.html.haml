@@ -8,6 +8,7 @@
 %p
   - if teacher_signed_in?
     = button_to '講師ログアウト', destroy_teacher_session_path, method: :delete
+    = link_to 'レッスン管理', teachers_lessons_path
   - else
     = link_to '講師ログイン', new_teacher_session_path
 %p

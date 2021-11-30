@@ -17,4 +17,7 @@ Rails.application.routes.draw do
       end
     end
   end
+  namespace :teachers do
+    resources :lessons, only: [:index, :new, :create]
+  end
 end

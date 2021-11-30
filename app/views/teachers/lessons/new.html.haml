@@ -1,0 +1,4 @@
+= simple_form_for @lesson, url: teachers_lessons_path, method: :post do |f|
+  = f.input :start_time, as: :datetime, discard_minute: true, label: '開始日時', class: 'form-control'
+  = f.association :language, label: '言語', class: 'form-control'
+  = f.submit '送信', class: 'btn btn-primary'
