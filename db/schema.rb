@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_24_101420) do
+ActiveRecord::Schema.define(version: 2021_11_30_140551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 2021_11_24_101420) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.bigint "teacher_id", null: false
+    t.datetime "start_time", null: false
+    t.bigint "language_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["language_id"], name: "index_lessons_on_language_id"
+    t.index ["teacher_id", "start_time"], name: "index_lessons_on_teacher_id_and_start_time", unique: true
+    t.index ["teacher_id"], name: "index_lessons_on_teacher_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -56,4 +67,5 @@ ActiveRecord::Schema.define(version: 2021_11_24_101420) do
     t.index ["reset_password_token"], name: "index_teachers_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "lessons", "teachers"
 end
