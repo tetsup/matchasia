@@ -11,6 +11,7 @@ class Student < ApplicationRecord
       only_integer: true,
       greater_than_or_equal_to: 0
     }
+  has_many :reservations
 
   INSTANT_TICKET_PRODUCTS = {
     1 => { amount: 2200, currency: 'jpy', description: 'チケット1枚' },

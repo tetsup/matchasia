@@ -2,6 +2,7 @@
   - if student_signed_in?
     = button_to 'ログアウト', destroy_student_session_path, method: :delete
     = link_to 'チケットの確認、購入', new_students_tickets_path
+    = link_to 'レッスン一覧、予約', students_lessons_path
   - else
     = link_to 'ログイン', new_student_session_path
     = link_to 'サインアップ', new_student_registration_path

@@ -16,6 +16,7 @@ gem 'simple_form'
 gem 'stripe'
 gem 'turbolinks'
 gem 'webpacker', '~> 5.0'
+gem 'zoom_rb'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

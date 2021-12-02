@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   root to: 'home#index'
   namespace :students do
     resource :tickets, only: [:new, :create]
+    resources :lessons, only: [:index] do
+      resource :reservation, only: [:create], module: :lessons
+    end
   end
   namespace :admins do
     resources :teachers, only: [:index, :destroy] do
