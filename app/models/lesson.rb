@@ -13,6 +13,9 @@ class Lesson < ApplicationRecord
   belongs_to :teacher
   belongs_to_active_hash :language
 
+  scope :from_now, -> { where(start_time: Time.now..) }
+  scope :sorted, -> { order(start_time: :asc) }
+
   REGISTARABLE_ATTRIBUTES = %i(
     teacher_id
     start_time(1i) start_time(2i) start_time(3i) start_time(4i)

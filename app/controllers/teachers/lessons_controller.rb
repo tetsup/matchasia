@@ -2,7 +2,7 @@ class Teachers::LessonsController < ApplicationController
   before_action :authenticate_teacher!
 
   def index
-    @lessons = current_teacher.lessons.eager_load(:reserve_student).order(start_time: :asc)
+    @lessons = current_teacher.lessons.eager_load(:reserve_student).from_now.sorted
   end
 
   def new
