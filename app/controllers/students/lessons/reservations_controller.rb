@@ -3,7 +3,7 @@ class Students::Lessons::ReservationsController < ApplicationController
 
   def create
     reservation = current_student.reservations.build({ lesson_id: params[:lesson_id] })
-    reservation.url = reservation.generate_zoom_url
+    reservation.assign_zoom_url!
     if reservation.save
       redirect_to students_lessons_path, method: :get, notice: '予約が完了しました'
     else

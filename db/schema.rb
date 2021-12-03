@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_30_153105) do
+ActiveRecord::Schema.define(version: 2021_12_03_154605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,9 +37,10 @@ ActiveRecord::Schema.define(version: 2021_11_30_153105) do
   create_table "reservations", force: :cascade do |t|
     t.bigint "lesson_id", null: false
     t.bigint "student_id", null: false
-    t.text "url", null: false
+    t.text "join_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "start_url", null: false
     t.index ["lesson_id"], name: "index_reservations_on_lesson_id"
     t.index ["student_id"], name: "index_reservations_on_student_id"
   end

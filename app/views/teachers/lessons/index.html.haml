@@ -14,4 +14,4 @@
       %td
         = lesson.reserve_student&.username
       %td
-        = lesson.reservation.present? ? (link_to '開く', lesson.reservation.url) : '-'
+        = lesson.reservation.present? ? (link_to '開く', lesson.reservation.start_url) : '-'
