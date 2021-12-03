@@ -5,6 +5,12 @@ class Reservation < ApplicationRecord
     format: { with: %r{https?://.+} },
     uniqueness: true
   }
+  validate :lesson_start_time_expect_to_be_after_now
+
+  def lesson_start_time_expect_to_be_after_now
+    errors.add(:lesson, '開始時刻を過ぎているレッスンは予約できません') if self.lesson.start_time < Time.now
+  end
+
   belongs_to :student
   belongs_to :lesson
 
