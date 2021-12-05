@@ -15,7 +15,7 @@ class Reservation < ApplicationRecord
   belongs_to :lesson
 
   def assign_zoom_url!
-    if lesson.valid?
+    if lesson.valid? && !Reservation.where(lesson: lesson).exists?
       zoom_client = Zoom.new
       user_id = zoom_client.user_list['users'].first['id']
       meeting = zoom_client.meeting_create(
@@ -26,5 +26,6 @@ class Reservation < ApplicationRecord
       self.start_url = meeting['start_url']
       self.join_url = meeting['join_url']
     end
+    nil
   end
 end
