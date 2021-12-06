@@ -1,4 +1,5 @@
 class Teacher < ApplicationRecord
+  extend ActiveHash::Associations::ActiveRecordExtensions
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :confirmable
   validates :username,
@@ -9,4 +10,5 @@ class Teacher < ApplicationRecord
   validates :about, length: { maximum: 200 }
   has_many :lessons, dependent: :destroy
   has_one_attached :photo
+  belongs_to_active_hash :language
 end

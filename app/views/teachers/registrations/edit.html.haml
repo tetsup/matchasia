@@ -28,6 +28,9 @@
     = f.input :about,
       as: :text,
       label: 'about'
+    = f.association :language,
+      label: '言語',
+      class: 'form-control'
   .form-actions
     = f.button :submit, "Update"
 %h3 Cancel my account
