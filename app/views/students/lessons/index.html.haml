@@ -12,7 +12,7 @@
       %td
         = lesson.language.name
       %td
-        = lesson.teacher.username
+        = link_to lesson.teacher.username, teacher_path(lesson.teacher.id)
       %td
         = lesson.reservation&.student&.username
       %td

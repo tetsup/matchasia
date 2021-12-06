@@ -11,7 +11,7 @@
     - @teachers.each do |t|
       %tr
         %td
-          = t.username
+          = link_to t.username, teacher_path(t.id)
         %td
           = t.email
         %td

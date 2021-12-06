@@ -17,6 +17,12 @@
     = f.input :password_confirmation,
       required: true,
       input_html: { autocomplete: "new-password" }
+    = f.input :photo,
+      as: :file,
+      label: 'photo'
+    = f.input :about,
+      as: :text,
+      label: 'about'
   .form-actions
     = f.button :submit, "Sign up"
 = render "students/shared/links"

@@ -5,6 +5,7 @@ ruby '2.7.4'
 
 gem 'active_hash'
 gem 'bootsnap', require: false
+gem 'cloudinary'
 gem 'devise'
 gem 'haml-rails'
 gem 'jbuilder'
