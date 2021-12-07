@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :lessons, only: [:index] do
       resource :reservation, only: [:create], module: :lessons
     end
+    resources :reservations, only: [:index]
   end
   namespace :admins do
     resources :teachers, only: [:index, :destroy] do

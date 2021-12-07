@@ -1,4 +1,6 @@
 class Reservation < ApplicationRecord
+  MEETING_DURATION_MINUTES = 50
+
   validates :lesson_id, uniqueness: true
   validates :start_url, :join_url, {
     presence: true,
@@ -14,6 +16,12 @@ class Reservation < ApplicationRecord
   belongs_to :student
   belongs_to :lesson
 
+  scope :load_lesson_with_filter, lambda {
+    eager_load(:lesson)
+      .where('lessons.start_time > ?', Time.now.ago(MEETING_DURATION_MINUTES.minute))
+      .order('lessons.start_time asc')
+  }
+
   def assign_zoom_url!
     if lesson.valid? && !Reservation.where(lesson: lesson).exists?
       zoom_client = Zoom.new
@@ -21,7 +29,7 @@ class Reservation < ApplicationRecord
       meeting = zoom_client.meeting_create(
         user_id: user_id,
         start_time: lesson.start_time.in_time_zone('UTC'),
-        duration: 50
+        duration: MEETING_DURATION_MINUTES
       )
       self.start_url = meeting['start_url']
       self.join_url = meeting['join_url']
