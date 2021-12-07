@@ -15,6 +15,7 @@ class Lesson < ApplicationRecord
 
   scope :from_now, -> { where(start_time: Time.now..) }
   scope :sorted, -> { order(start_time: :asc) }
+  scope :filter_by_language, ->(language_id) { where(language_id: language_id) if language_id.present? }
 
   REGISTARABLE_ATTRIBUTES = %i(
     teacher_id
