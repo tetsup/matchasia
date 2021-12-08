@@ -1,7 +1,7 @@
 class Teacher < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :confirmable
+         :recoverable, :rememberable, :confirmable, :validatable
   validates :username,
     presence: true,
     length: { in: 3..20 },

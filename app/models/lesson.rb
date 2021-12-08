@@ -1,7 +1,7 @@
 class Lesson < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
   validates :start_time, uniqueness: { scope: :teacher_id }
-  validates :language_id, presence: true
+  validates :language, presence: true
   validate :start_time_expect_to_be_after_now
 
   def start_time_expect_to_be_after_now

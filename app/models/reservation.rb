@@ -1,7 +1,7 @@
 class Reservation < ApplicationRecord
   MEETING_DURATION_MINUTES = 50
 
-  validates :lesson_id, uniqueness: true
+  validates :lesson, uniqueness: true
   validates :start_url, :join_url, {
     presence: true,
     format: { with: %r{https?://.+} },

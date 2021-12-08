@@ -7,6 +7,7 @@ class Student < ApplicationRecord
     format: { with: /\A[a-zA-Z]+\z/ },
     uniqueness: true
   validates :tickets,
+    presence: true,
     numericality: {
       only_integer: true,
       greater_than_or_equal_to: 0

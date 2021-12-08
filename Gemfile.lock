@@ -111,6 +111,11 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.10.0)
     erubis (2.7.0)
+    factory_bot (6.2.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     ffi (1.15.4)
     globalid (0.5.2)
       activesupport (>= 5.0)
@@ -233,6 +238,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     rexml (3.2.5)
+    rounding (1.0.1)
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
     rspec-expectations (3.10.1)
@@ -354,6 +360,7 @@ DEPENDENCIES
   capybara
   cloudinary
   devise
+  factory_bot_rails
   haml-rails
   jbuilder
   listen
@@ -362,6 +369,7 @@ DEPENDENCIES
   puma
   rack-mini-profiler
   rails (~> 6.1.4, >= 6.1.4.1)
+  rounding
   rspec-rails
   sass-rails
   selenium-webdriver

@@ -12,6 +12,7 @@ gem 'jbuilder'
 gem 'pg'
 gem 'puma'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
+gem 'rounding'
 gem 'sass-rails'
 gem 'simple_form'
 gem 'stripe'
@@ -21,6 +22,7 @@ gem 'zoom_rb'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'factory_bot_rails'
   gem 'rspec-rails'
 end
 
