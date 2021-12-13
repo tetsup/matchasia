@@ -3,7 +3,7 @@
 %p
   = "所有チケット: #{current_student.tickets}"
 - Student::INSTANT_TICKET_PRODUCTS.each do |qty, p|
-  %p
+  %div{id: "buy-tickets-#{qty}"}
     = p[:description]
     = " - 価格(税込): #{p[:amount]}(#{p[:currency]})"
     = form_tag students_tickets_path do
