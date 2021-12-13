@@ -1,6 +1,21 @@
 require 'rails_helper'
 
 RSpec.feature 'Students', type: :system do
+  it 'reserve a new lesson as student' do
+    student = FactoryBot.create(:student, tickets: 1)
+    FactoryBot.create(:lesson, language_id: 1)
+    sign_in_as_student student
+    expect {
+      visit root_path
+      click_link 'レッスン一覧、予約'
+      expect(find('table')).to have_content '中国語'
+      select '中国語', from: 'lesson_language_id'
+      wait_for_change_url { click_button '検索' }
+      click_button '予約'
+      expect(page).to have_content '予約が完了しました'
+    }.to change(student.reservations, :count).by(1)
+  end
+
   it 'buy a new ticket as student', js: true do
     student = FactoryBot.create(:student, tickets: 0)
     sign_in_as_student student
