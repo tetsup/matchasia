@@ -14,6 +14,14 @@ module LoginSupport
     fill_in 'Password', with: student.password
     click_button 'Log in'
   end
+
+  def sign_in_as_admin(admin)
+    visit root_path
+    click_link '管理者ログイン'
+    fill_in 'Email', with: admin.email
+    fill_in 'Password', with: admin.password
+    click_button 'Log in'
+  end
 end
 
 RSpec.configure do |config|
