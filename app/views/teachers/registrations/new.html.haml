@@ -10,22 +10,6 @@
     = f.input :email,
       required: true,
       input_html: { autocomplete: "email" }
-    = f.input :password,
-      required: true,
-      hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-      input_html: { autocomplete: "new-password" }
-    = f.input :password_confirmation,
-      required: true,
-      input_html: { autocomplete: "new-password" }
-    = f.input :photo,
-      as: :file,
-      label: 'photo'
-    = f.input :about,
-      as: :text,
-      label: 'about'
-    = f.association :language,
-      label: '言語',
-      class: 'form-control'
   .form-actions
     = f.button :submit, "Sign up"
-= render "students/shared/links"
+= render "teachers/shared/links"

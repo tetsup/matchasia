@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :admins
   devise_for :teachers, controllers: {
     registrations: 'teachers/registrations',
+    confirmations: 'teachers/confirmations'
   }
   devise_for :students, controllers: {
     registrations: 'students/registrations',

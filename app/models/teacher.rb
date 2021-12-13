@@ -11,4 +11,8 @@ class Teacher < ApplicationRecord
   has_many :lessons, dependent: :destroy
   has_one_attached :photo
   belongs_to_active_hash :language
+
+  def password_required?
+    super if confirmed?
+  end
 end
