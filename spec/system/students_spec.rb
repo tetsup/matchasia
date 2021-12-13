@@ -1,19 +1,25 @@
 require 'rails_helper'
 
 RSpec.feature 'Students', type: :system do
+  include ActiveJob::TestHelper
   it 'reserve a new lesson as student' do
     student = FactoryBot.create(:student, tickets: 1)
-    FactoryBot.create(:lesson, language_id: 1)
-    sign_in_as_student student
-    expect {
-      visit root_path
-      click_link 'レッスン一覧、予約'
-      expect(find('table')).to have_content '中国語'
-      select '中国語', from: 'lesson_language_id'
-      wait_for_change_url { click_button '検索' }
-      click_button '予約'
-      expect(page).to have_content '予約が完了しました'
-    }.to change(student.reservations, :count).by(1)
+    lesson = FactoryBot.create(:lesson, language_id: 1)
+    perform_enqueued_jobs do
+      sign_in_as_student student
+      expect {
+        visit root_path
+        click_link 'レッスン一覧、予約'
+        expect(find('table')).to have_content '中国語'
+        select '中国語', from: 'lesson_language_id'
+        wait_for_change_url { click_button '検索' }
+        click_button '予約'
+        expect(page).to have_content '予約が完了しました'
+      }.to change(student.reservations, :count).by(1)
+    end
+    mail_to_array = ActionMailer::Base.deliveries.map(&:to)
+    expect(mail_to_array).to include [student.email]
+    expect(mail_to_array).to include [lesson.teacher.email]
   end
 
   it 'buy a new ticket as student', js: true do
