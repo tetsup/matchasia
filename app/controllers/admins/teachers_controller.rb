@@ -7,7 +7,7 @@ class Admins::TeachersController < ApplicationController
 
   def destroy
     Teacher.find(params[:id]).destroy!
-    redirect_to admins_teachers_path
+    redirect_to admins_teachers_path, notice: '削除しました'
   end
 
   def become
