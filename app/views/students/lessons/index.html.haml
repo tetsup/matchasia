@@ -20,4 +20,7 @@
       %td
         = lesson.reservation&.student&.username
       %td
-        = lesson.reservation.nil? ? (button_to '予約', students_lesson_reservation_path(lesson.id), method: :post, class: 'btn btn-primary') : '-'
+        - if lesson.reservation.nil?
+          = button_to '予約', students_lesson_reservation_path(lesson.id), method: :post, class: 'btn btn-primary'
+        - else
+          = '-'
