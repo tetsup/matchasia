@@ -16,7 +16,7 @@ class Reservation < ApplicationRecord
   belongs_to :student
   belongs_to :lesson
 
-  scope :load_lesson_with_filter, lambda {
+  scope :load_lesson_not_started, lambda {
     eager_load(:lesson)
       .where('lessons.start_time > ?', Time.now.ago(MEETING_DURATION_MINUTES.minute))
       .order('lessons.start_time asc')
