@@ -19,4 +19,11 @@ class Student < ApplicationRecord
     3 => { amount: 5500, currency: 'jpy', description: 'チケット3枚' },
     5 => { amount: 8250, currency: 'jpy', description: 'チケット5枚' }
   }
+
+  def buy_tickets!(ticket_qty, email, token)
+    product = INSTANT_TICKET_PRODUCTS[ticket_qty]
+    customer = Stripe::Customer.create({ email: email, source: token })
+    Stripe::Charge.create(product.merge({ customer: customer.id }))
+    self.tickets += ticket_qty
+  end
 end
