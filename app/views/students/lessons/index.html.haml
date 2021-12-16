@@ -1,7 +1,7 @@
 = link_to '予約一覧', students_reservations_path
 = simple_form_for @form_lesson, url: students_lessons_path, method: :get do |f|
   = f.association :language, required: false
-  = f.submit '検索', class: 'btn btn-primary'
+  = f.button :submit, '検索', class: 'btn-primary'
 %table.table
   %tr
     %th 開始日時
