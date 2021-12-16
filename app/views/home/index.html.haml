@@ -1,6 +1,6 @@
 %p
   - if student_signed_in?
-    = button_to 'ログアウト', destroy_student_session_path, method: :delete
+    = button_to 'ログアウト', destroy_student_session_path, method: :delete, class: 'btn btn-secondary'
     = link_to 'チケットの確認、購入', new_students_tickets_path
     = link_to 'レッスン一覧、予約', students_lessons_path
   - else
@@ -8,14 +8,14 @@
     = link_to 'サインアップ', new_student_registration_path
 %p
   - if teacher_signed_in?
-    = button_to '講師ログアウト', destroy_teacher_session_path, method: :delete
+    = button_to '講師ログアウト', destroy_teacher_session_path, method: :delete, class: 'btn btn-secondary'
     = link_to 'レッスン管理', teachers_lessons_path
     = link_to 'プロフィール編集', edit_teacher_registration_path
   - else
     = link_to '講師ログイン', new_teacher_session_path
 %p
   - if admin_signed_in?
-    = button_to '管理者ログアウト', destroy_admin_session_path, method: :delete
+    = button_to '管理者ログアウト', destroy_admin_session_path, method: :delete, class: 'btn btn-secondary'
     = link_to '講師管理', admins_teachers_path
   - else
     = link_to '管理者ログイン', new_admin_session_path

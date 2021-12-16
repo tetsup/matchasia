@@ -2,7 +2,7 @@
 = simple_form_for @form_lesson, url: students_lessons_path, method: :get do |f|
   = f.association :language, required: false
   = f.submit '検索'
-%table
+%table.table
   %tr
     %th 開始日時
     %th 言語
@@ -20,4 +20,4 @@
       %td
         = lesson.reservation&.student&.username
       %td
-        = lesson.reservation.nil? ? (button_to '予約', students_lesson_reservation_path(lesson.id), method: :post) : '-'
+        = lesson.reservation.nil? ? (button_to '予約', students_lesson_reservation_path(lesson.id), method: :post, class: 'btn btn-primary') : '-'
