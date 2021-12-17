@@ -6,15 +6,15 @@ default: &default
 development:
   <<: *default
   database: matchasia_development
-  username: <%= ENV['MATCHASIA_DB_USERNAME'] %>
-  password: <%= ENV['MATCHASIA_DB_PASSWORD'] %>
+  username: admin
+  password: adminpass
   host: db
 
 test:
   <<: *default
   database: matchasia_test
-  username: <%= ENV['MATCHASIA_DB_USERNAME'] %>
-  password: <%= ENV['MATCHASIA_DB_PASSWORD'] %>
+  username: admin
+  password: adminpass
   host: db
 
 production:

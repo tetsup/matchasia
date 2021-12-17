@@ -13,7 +13,7 @@
         'data-currency' => "#{p[:currency]}",
         'data-description' => "チケットの代金決済(税込価格)",
         'data-email' => "#{current_student.email}",
-        'data-key' => "#{ENV['MATCHASIA_STRIPE_PUBLIC_KEY']}",
+        'data-key' => "#{Rails.application.credentials.stripe[:public_key]}",
         'data-name' => "#{p[:description]}",
         src: "https://checkout.stripe.com/checkout.js"
       }

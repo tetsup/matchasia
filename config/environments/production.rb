@@ -72,12 +72,11 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV['MATCHASIA_SMTP_ADDR'],
-    port: ENV['MATCHASIA_SMTP_PORT'] || 587,
-    domain: ENV['MATCHASIA_SMTP_DOMAIN'],
-    user_name: ENV['MATCHASIA_SMTP_USERNAME'],
-    password: ENV['MATCHASIA_SMTP_PASSWORD'],
-    authentication: ENV['MATCHASIA_SMTP_AUTHTYPE'] || 'plain',
+    address: 'smtp.sendgrid.com',
+    port: 587,
+    user_name: Rails.application.credentials.smtp[:username],
+    password: Rails.application.credentials.smtp[:password],
+    authentication: 'plain',
     enable_starttls_auto: true
   }
   

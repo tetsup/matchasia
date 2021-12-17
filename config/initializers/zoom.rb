@@ -1,4 +1,4 @@
 Zoom.configure do |c|
-  c.api_key = ENV['MATCHASIA_ZOOM_API_KEY']
-  c.api_secret = ENV['MATCHASIA_ZOOM_API_SECRET']
+  c.api_key = Rails.application.credentials.zoom[:api_key]
+  c.api_secret = Rails.application.credentials.zoom[:api_secret]
 end

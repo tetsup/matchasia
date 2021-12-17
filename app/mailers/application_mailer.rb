@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: ENV['MATCHASIA_SMTP_MAILFROM']
+  default from: 'matchasia@cocoro.uk'
   layout 'mailer'
 end

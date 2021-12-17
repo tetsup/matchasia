@@ -1,18 +1,18 @@
 development:
-  cloud_name: <%= ENV['MATCHASIA_CLOUDINARY_CLOUD_NAME'] %>
-  api_key: <%= ENV['MATCHASIA_CLOUDINARY_API_KEY'] %>
-  api_secret: <%= ENV['MATCHASIA_CLOUDINARY_API_SECRET'] %>
+  cloud_name: <%= Rails.env.credentials.cloudinary[:cloud_name] %>
+  api_key: <%= Rails.env.credentials.cloudinary[:api_key] %>
+  api_secret: <%= Rails.env.credentials.cloudinary[:api_secret] %>
   enhance_image_tag: true
   static_image_support: false
 production:
-  cloud_name: <%= ENV['MATCHASIA_CLOUDINARY_CLOUD_NAME'] %>
-  api_key: <%= ENV['MATCHASIA_CLOUDINARY_API_KEY'] %>
-  api_secret: <%= ENV['MATCHASIA_CLOUDINARY_API_SECRET'] %>
+  cloud_name: <%= Rails.env.credentials.cloudinary[:cloud_name] %>
+  api_key: <%= Rails.env.credentials.cloudinary[:api_key] %>
+  api_secret: <%= Rails.env.credentials.cloudinary[:api_secret] %>
   enhance_image_tag: true
   static_image_support: true
 test:
-  cloud_name: <%= ENV['MATCHASIA_CLOUDINARY_CLOUD_NAME'] %>
-  api_key: <%= ENV['MATCHASIA_CLOUDINARY_API_KEY'] %>
-  api_secret: <%= ENV['MATCHASIA_CLOUDINARY_API_SECRET'] %>
+  cloud_name: <%= Rails.env.credentials.cloudinary[:cloud_name] %>
+  api_key: <%= Rails.env.credentials.cloudinary[:api_key] %>
+  api_secret: <%= Rails.env.credentials.cloudinary[:api_secret] %>
   enhance_image_tag: true
   static_image_support: false
