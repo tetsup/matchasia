@@ -26,4 +26,5 @@ Rails.application.routes.draw do
     resources :lessons, only: [:index, :new, :create]
   end
   resources :teachers, only: [:show]
+  Rails.env.development? && mount(LetterOpenerWeb::Engine, at: '/letter_opener')
 end
