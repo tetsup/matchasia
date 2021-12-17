@@ -15,4 +15,16 @@ RSpec.feature 'Teachers', type: :system do
       expect(page).to have_content '中国語'
     }.to change(teacher.lessons, :count).by(1)
   end
+
+  it 'add a photo into profile as teacher' do
+    teacher = FactoryBot.create(:teacher)
+    sign_in_as_teacher teacher
+    click_link 'プロフィール編集'
+    fill_in 'Current password', with: teacher.password
+    attach_file 'photo', "#{Rails.root}/spec/files/sample.jpg"
+    click_button 'Update'
+    expect(page).to have_content 'Your account has been updated successfully.'
+    visit teacher_path(teacher.id)
+    expect(page).to have_selector "img[alt$='photo']"
+  end
 end

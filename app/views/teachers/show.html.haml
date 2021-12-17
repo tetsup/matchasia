@@ -1,7 +1,7 @@
 %h2
   講師プロフィール
 - if @teacher.photo.present?
-  = cl_image_tag @teacher.photo.key, width: 100, crop: 'thumb', transformation: { radius: 'max' }
+  = cl_image_tag @teacher.photo.key, width: 100, crop: 'thumb', transformation: { radius: 'max' }, alt: 'photo'
 %h3
   講師名
 = @teacher.username
