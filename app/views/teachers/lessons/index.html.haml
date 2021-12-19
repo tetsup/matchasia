@@ -5,6 +5,7 @@
     %th 言語
     %th 受講者
     %th zoomリンク
+    %th フィードバック
   - @lessons.each do |lesson|
     %tr
       %td
@@ -15,3 +16,10 @@
         = lesson.reserve_student&.username
       %td
         = lesson.reservation.present? ? (link_to '開く', lesson.reservation.start_url) : '-'
+      %td
+        - if lesson.feedback.present?
+          = link_to '編集', edit_teachers_lesson_feedback_path(lesson)
+        - elsif lesson.finished? && lesson.reservation.present?
+          = link_to '作成', new_teachers_lesson_feedback_path(lesson)
+        - else
+          = '-'

@@ -23,7 +23,9 @@ Rails.application.routes.draw do
     end
   end
   namespace :teachers do
-    resources :lessons, only: [:index, :new, :create]
+    resources :lessons, only: [:index, :new, :create] do
+      resource :feedback, only: [:new, :edit, :create], module: :lessons
+    end
   end
   resources :teachers, only: [:show]
   Rails.env.development? && mount(LetterOpenerWeb::Engine, at: '/letter_opener')

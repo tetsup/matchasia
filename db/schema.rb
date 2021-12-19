@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_06_100944) do
+ActiveRecord::Schema.define(version: 2021_12_19_113907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,14 @@ ActiveRecord::Schema.define(version: 2021_12_06_100944) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.bigint "lesson_id"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lesson_id"], name: "index_feedbacks_on_lesson_id"
   end
 
   create_table "lessons", force: :cascade do |t|
