@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   namespace :teachers do
     resources :lessons, only: [:index, :new, :create] do
       resource :feedback, only: [:new, :edit, :create], module: :lessons
+      resource :report, only: [:new, :edit, :create], module: :lessons
     end
   end
   resources :teachers, only: [:show]

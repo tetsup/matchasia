@@ -12,6 +12,7 @@ class Lesson < ApplicationRecord
   has_one :reservation, dependent: :destroy
   has_one :reserve_student, through: :reservation, source: :student
   has_one :feedback
+  has_one :report
   belongs_to :teacher
   belongs_to_active_hash :language
 
