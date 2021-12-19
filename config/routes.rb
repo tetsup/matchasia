@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       resource :feedback, only: [:new, :edit, :create], module: :lessons
       resource :report, only: [:new, :edit, :create], module: :lessons
     end
+    resources :students, only: [:show]
   end
   resources :teachers, only: [:show]
   Rails.env.development? && mount(LetterOpenerWeb::Engine, at: '/letter_opener')
