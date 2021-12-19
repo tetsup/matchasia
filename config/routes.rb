@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resource :tickets, only: [:new, :create]
     resources :lessons, only: [:index] do
       resource :reservation, only: [:create], module: :lessons
+      resource :feedback, only: [:show], module: :lessons
     end
     resources :reservations, only: [:index]
   end
