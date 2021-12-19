@@ -16,7 +16,7 @@ class Reservation < ApplicationRecord
 
   scope :load_lesson_not_started, lambda {
     eager_load(:lesson)
-      .where('lessons.start_time > ?', Time.now.ago(Lesson.MEETING_DURATION_MINUTES.minute))
+      .where('lessons.start_time > ?', Time.now.ago(Lesson::MEETING_DURATION_MINUTES.minute))
       .order('lessons.start_time asc')
   }
 
@@ -27,7 +27,7 @@ class Reservation < ApplicationRecord
       meeting = zoom_client.meeting_create(
         user_id: user_id,
         start_time: lesson.start_time.in_time_zone('UTC'),
-        duration: Lesson.MEETING_DURATION_MINUTES
+        duration: Lesson::MEETING_DURATION_MINUTES
       )
       self.start_url = meeting['start_url']
       self.join_url = meeting['join_url']
