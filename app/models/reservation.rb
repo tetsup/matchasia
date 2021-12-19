@@ -17,8 +17,8 @@ class Reservation < ApplicationRecord
   scope :load_lesson_not_started, lambda {
     eager_load(:lesson)
       .where('lessons.start_time > ?', Time.now.ago(Lesson::MEETING_DURATION_MINUTES.minute))
-      .order('lessons.start_time asc')
   }
+  scope :sorted, -> { order('lessons.start_time asc') }
 
   def assign_zoom_url!
     if lesson.valid? && !Reservation.where(lesson: lesson).exists?
