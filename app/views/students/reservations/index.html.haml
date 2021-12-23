@@ -19,6 +19,6 @@
           = link_to '開く', reservation.join_url
         - else
           終了
-      %td
+      %td.lesson_feedback
         - if reservation.lesson.feedback.present?
           = link_to '確認', students_lesson_feedback_path(reservation.lesson.id)

@@ -18,14 +18,14 @@
           = link_to lesson.reserve_student.username, teachers_student_path(lesson.reserve_student.id)
       %td
         = lesson.reservation.present? ? (link_to '開く', lesson.reservation.start_url) : '-'
-      %td
+      %td.lesson_feedback
         - if lesson.feedback.present?
           = link_to '編集', edit_teachers_lesson_feedback_path(lesson)
         - elsif lesson.finished? && lesson.reservation.present?
           = link_to '作成', new_teachers_lesson_feedback_path(lesson)
         - else
           = '-'
-      %td
+      %td.lesson_report
         - if lesson.report.present?
           = link_to '編集', edit_teachers_lesson_report_path(lesson)
         - elsif lesson.finished? && lesson.reservation.present?
