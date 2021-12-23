@@ -1,7 +1,9 @@
 %h2
   チケットの確認・購入
 %p
-  = "所有チケット: #{current_student.tickets}"
+  = "所有チケット:"
+  %span#tickets
+    = current_student.tickets
 - Student::INSTANT_TICKET_PRODUCTS.each do |qty, p|
   %div{id: "buy-tickets-#{qty}"}
     = p[:description]

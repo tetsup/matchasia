@@ -42,4 +42,20 @@ RSpec.feature 'Students', type: :system do
       expect(page).to have_content 'チケットを購入しました', wait: 10
     }.to change { student.reload.tickets }.by(3)
   end
+
+  it 'has a trial ticket on registeration as student' do
+    username = 'ariel'
+    password = 'Awajkwp@::wtat'
+    email = 'ariel@example.com'
+    visit root_path
+    click_link 'サインアップ'
+    fill_in 'student_username', with: username
+    fill_in 'student_email', with: email
+    fill_in 'student_password', with: password
+    fill_in 'student_password_confirmation', with: password
+    click_button 'Sign up'
+    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    click_link 'チケットの確認、購入'
+    expect(find('span#tickets').text).to eq '1'
+  end
 end
