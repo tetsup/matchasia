@@ -22,6 +22,11 @@ module LoginSupport
     fill_in 'Password', with: admin.password
     click_button 'Log in'
   end
+
+  def sign_out_teacher
+    visit root_path
+    click_button '講師ログアウト'
+  end
 end
 
 RSpec.configure do |config|
