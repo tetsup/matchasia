@@ -7,7 +7,11 @@ RSpec.feature 'Teachers', type: :system do
     expect {
       click_link 'レッスン管理'
       click_link '新規作成'
-      select '2022', from: '開始日時'
+      lesson_start_time = 1.hours.from_now
+      select lesson_start_time.year, from: 'lesson_start_time_1i'
+      select lesson_start_time.month, from: 'lesson_start_time_2i'
+      select lesson_start_time.day, from: 'lesson_start_time_3i'
+      select format('%02<hour>d', hour: lesson_start_time.hour), from: 'lesson_start_time_4i'
       select '中国語', from: '言語'
       click_button '送信'
 
