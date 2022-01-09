@@ -11,6 +11,8 @@ services:
       - db
     tty: true
     stdin_open: true
+    environment:
+      TZ: 'Asia/Tokyo'
   db:
     image: postgres:latest
     ports:
