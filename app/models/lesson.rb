@@ -19,6 +19,10 @@ class Lesson < ApplicationRecord
   scope :from_now, -> { where(start_time: Time.now..) }
   scope :sorted, -> { order(start_time: :asc) }
   scope :filter_by_language, ->(language_id) { where(language_id: language_id) if language_id.present? }
+  scope :filter_by_date_range, ->(start_date, end_date) {
+    where(start_time: start_date.beginning_of_day..end_date.end_of_day)
+  }
+  scope :fetch_start_time_local, -> { select("(lessons.start_time + interval '9 hour') as start_time_local") }
 
   REGISTARABLE_ATTRIBUTES = %i(
     teacher_id
@@ -36,5 +40,24 @@ class Lesson < ApplicationRecord
 
   def finished?
     end_time <= Time.now
+  end
+
+  def self.group_by_local_date_and_time(lesson_sub_query)
+    from(lesson_sub_query.fetch_start_time_local, :lessons_as_local)
+      .group('DATE(start_time_local)')
+      .group("DATE_PART('hour', start_time_local)::integer")
+  end
+
+  def self.count_by_date_and_time(start_date, end_date)
+    group_by_local_date_and_time(
+      filter_by_date_range(start_date, end_date)
+    ).count
+  end
+
+  def self.reserved_count_by_date_and_time(start_date, end_date)
+    group_by_local_date_and_time(
+      filter_by_date_range(start_date, end_date)
+        .joins(:reservation)
+    ).count
   end
 end
