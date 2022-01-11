@@ -9,5 +9,11 @@ FactoryBot.define do
       username { 'alice' }
       email { 'alice@example.com' }
     end
+
+    trait :continuous do
+      sequence(:username, 'student1')
+      sequence(:email) { |i| "student#{i}@example.com" }
+      tickets { 1000 }
+    end
   end
 end
