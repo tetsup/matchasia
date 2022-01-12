@@ -22,6 +22,7 @@ Rails.application.routes.draw do
         post :become
       end
     end
+    resources :reservations, only: [:index]
   end
   namespace :teachers do
     resources :lessons, only: [:index, :new, :create] do
