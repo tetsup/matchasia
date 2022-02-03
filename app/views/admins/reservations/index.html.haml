@@ -1,3 +1,6 @@
+%h2
+  時間別予約率
+= render 'links'
 = simple_form_for :query, url: admins_reservations_path, method: :get do |f|
   = f.input :start_date, as: :date, label: '開始', html5: true, input_html: { value: @start_date }
   = f.input :end_date, as: :date, label: '終了', html5: true, input_html: { value: @end_date }
