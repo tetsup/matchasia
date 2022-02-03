@@ -1,0 +1,16 @@
+%h2
+  言語別予約率
+%table.table
+  %thead
+    %tr
+      %th 日付
+      - @languages.each do |language|
+        %th
+          = language.name
+  %tbody
+    - (@start_date..@end_date).each do |date|
+      %tr
+        %th
+          = date.to_s(:date_jp_weekday)
+        - @languages.each do |language|
+          = colored_td(@reservations_counts[[date, language.id]], @lessons_counts[[date, language.id]])

@@ -27,4 +27,12 @@ module ReservationHelper
           (#{params[:reservated_rate]}%)
     HAML
   end
+
+  def create_daily_query_params(month)
+    {
+      'span' => 'daily',
+      'query[start_date]' => month.to_s(:date_query),
+      'query[end_date]' => month.end_of_month.to_s(:date_query)
+    }
+  end
 end

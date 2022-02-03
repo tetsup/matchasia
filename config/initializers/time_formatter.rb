@@ -1,1 +1,5 @@
 Time::DATE_FORMATS[:datetime_jp] = '%Y/%m/%d %H:%M'
+Time::DATE_FORMATS[:date_jp_weekday] = '%Y/%m/%d(%a)'
+Time::DATE_FORMATS[:month_jp] = '%Y/%m'
+Time::DATE_FORMATS[:date_query] = '%Y-%m-%d'
+Date::DATE_FORMATS[:date_jp_weekday] = '%Y/%m/%d(%a)'
