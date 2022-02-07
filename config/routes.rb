@@ -31,6 +31,10 @@ Rails.application.routes.draw do
   end
   namespace :teachers do
     resources :lessons, only: [:index, :new, :create] do
+      collection do
+        get :bulk_new
+        post :bulk_create
+      end
       resource :feedback, only: [:new, :edit, :create], module: :lessons
       resource :report, only: [:new, :edit, :create], module: :lessons
     end
