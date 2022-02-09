@@ -2,7 +2,13 @@ class Teachers::LessonsController < ApplicationController
   before_action :authenticate_teacher!
 
   def index
-    @lessons = current_teacher.lessons.eager_load(:reserve_student).eager_load(:feedback).eager_load(:report).sorted
+    @lessons = current_teacher
+               .lessons
+               .eager_load(:reservation)
+               .eager_load(:reserve_student)
+               .eager_load(:feedback)
+               .eager_load(:report)
+               .sorted
   end
 
   def new
