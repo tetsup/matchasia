@@ -40,7 +40,7 @@ class Teachers::LessonsController < ApplicationController
       create_params[:start_time].each do |start_time, flag|
         next if flag != '1'
 
-        lesson = current_teacher.lessons.create(
+        lesson = current_teacher.lessons.build(
           language_id: create_params[:language_id],
           start_time: Time.strptime(start_time, '%Y-%m-%d %H')
         )
