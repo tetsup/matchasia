@@ -128,6 +128,10 @@ class LessonRangeQuery
 
   validates :start_date, presence: true
   validates :end_date, presence: true
+  validate :too_mach_time_difference
+  def too_mach_time_difference
+    errors.add(:end_date, '期間は1か月以内である必要があります') if end_date > 1.month.after(start_date)
+  end
   validates :start_hour, presence: true, numericality: { greater_than_or_equal_to: 7, less_than_or_equal_to: 22 }
   validates :end_hour, presence: true, numericality: { greater_than_or_equal_to: :start_hour, less_than_or_equal_to: 22 }
 end
