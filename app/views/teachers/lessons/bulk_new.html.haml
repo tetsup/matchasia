@@ -1,28 +1,29 @@
 %h2
   レッスン一括作成
 = render 'link'
-= simple_form_for :query, url: bulk_new_teachers_lessons_path, method: :get do |f|
-  = f.input :start_date, as: :date, label: '開始日', html5: true, input_html: { value: @start_date }
-  = f.input :end_date, as: :date, label: '終了日', html5: true, input_html: { value: @end_date }
-  = f.input :start_hour, label: '開始時刻', as: :select, collection: [*7..22], selected: @start_hour, include_blank: false
-  = f.input :end_hour, label: '終了時刻', as: :select, collection: [*7..22], selected: @end_hour, include_blank: false
+= simple_form_for @query_params, url: bulk_new_teachers_lessons_path, method: :get do |f|
+  = f.input :start_date, as: :date, label: '開始日', html5: true
+  = f.input :end_date, as: :date, label: '終了日', html5: true
+  = f.input :start_hour, as: :select, label: '開始時刻', collection: [*7..22]
+  = f.input :end_hour, as: :select, label: '終了時刻', collection: [*7..22]
   = f.button :submit, '検索', class: 'btn-primary'
 
-= simple_form_for :lessons, url: bulk_create_teachers_lessons_path, method: :post do |f|
-  = f.input :language_id, label: '言語', as: :select, collection: @languages, include_blank: false
-  %table.table
-    %thead
-      %tr
-        %th -
-        - (@start_hour..@end_hour).each do |hour|
-          %th
-            = hour
-    %tbody
-      - (@start_date..@end_date).each do |date|
+- if @query_params.valid?
+  = simple_form_for :lessons, url: bulk_create_teachers_lessons_path, method: :post do |f|
+    = f.input :language_id, label: '言語', as: :select, collection: Language.all, include_blank: false
+    %table.table
+      %thead
         %tr
-          %th
-            = date.to_s(:date_jp_weekday)
-          - (@start_hour..@end_hour).each do |hour|
-            %td
-              = f.input "start_time[#{date.to_s(:date_query)} #{hour}]", as: :boolean, label: false, input_html: { checked: true }
-  = f.button :submit, '一括登録', class: 'btn-primary'
+          %th -
+          - (@query_params.start_hour..@query_params.end_hour).each do |hour|
+            %th
+              = hour
+      %tbody
+        - (@query_params.start_date..@query_params.end_date).each do |date|
+          %tr
+            %th
+              = date.to_s(:date_jp_weekday)
+            - (@query_params.start_hour..@query_params.end_hour).each do |hour|
+              %td
+                = f.input "start_time[#{date.to_s(:date_query)} #{hour}]", as: :boolean, label: false, input_html: { checked: true }
+    = f.button :submit, '一括登録', class: 'btn-primary'

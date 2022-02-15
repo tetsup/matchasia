@@ -24,13 +24,16 @@ class Teachers::LessonsController < ApplicationController
     end
   end
 
+  def bulk_search
+    @query_params = LessonRangeQuery.new
+    render :bulk_new
+  end
+
   def bulk_new
-    query_params = bulk_query_params
-    @start_date = Date.parse(query_params[:start_date])
-    @end_date = Date.parse(query_params[:end_date])
-    @start_hour = query_params[:start_hour].to_i
-    @end_hour = query_params[:end_hour].to_i
-    @languages = Language.all
+    @query_params = LessonRangeQuery.new(bulk_query_params)
+    return if @query_params.valid?
+
+    render :bulk_new, alert: @query_params.errors.full_messages.join(', ')
   end
 
   def bulk_create
@@ -61,7 +64,7 @@ class Teachers::LessonsController < ApplicationController
   end
 
   def bulk_query_params
-    params.fetch(:query, {start_date: Date.today.to_s(:date_query), end_date: 1.weeks.from_now.to_s(:date_query), start_hour: '7', end_hour: '22'})
+    params.require(:lesson_range_query)
           .permit([:start_date, :end_date, :start_hour, :end_hour])
   end
 

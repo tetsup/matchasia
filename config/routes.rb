@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   namespace :teachers do
     resources :lessons, only: [:index, :new, :create] do
       collection do
+        get :bulk_search
         get :bulk_new
         post :bulk_create
       end

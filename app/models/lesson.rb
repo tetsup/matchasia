@@ -116,3 +116,18 @@ class Lesson < ApplicationRecord
     [minimum(:start_time), maximum(:start_time)]
   end
 end
+
+class LessonRangeQuery
+  include ActiveModel::Model
+  include ActiveModel::Attributes
+
+  attribute :start_date, :date, default: Date.today
+  attribute :end_date, :date, default: 7.day.from_now
+  attribute :start_hour, :integer, default: 7
+  attribute :end_hour, :integer, default: 22
+
+  validates :start_date, presence: true
+  validates :end_date, presence: true
+  validates :start_hour, presence: true, numericality: { greater_than_or_equal_to: 7, less_than_or_equal_to: 22 }
+  validates :end_hour, presence: true, numericality: { greater_than_or_equal_to: :start_hour, less_than_or_equal_to: 22 }
+end
