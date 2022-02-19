@@ -1,4 +1,6 @@
 class Feedback < ApplicationRecord
+  belongs_to :lesson
+
   validates :content, presence: true, length: { maximum: 200 }
   validate :lesson_is_finished
   validate :lesson_is_not_reserved
@@ -10,6 +12,4 @@ class Feedback < ApplicationRecord
   def lesson_is_not_reserved
     errors.add(:lesson, '予約されていないレッスンにはフィードバックできません') if lesson.reservation.nil?
   end
-
-  belongs_to :lesson
 end

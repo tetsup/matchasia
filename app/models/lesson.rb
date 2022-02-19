@@ -1,20 +1,33 @@
 class Lesson < ApplicationRecord
-  MEETING_DURATION_MINUTES = 50
   extend ActiveHash::Associations::ActiveRecordExtensions
-  validates :start_time, uniqueness: { scope: :teacher_id }
-  validates :language, presence: true
-  validate :start_time_expect_to_be_after_now
-
-  def start_time_expect_to_be_after_now
-    errors.add(:start_time, 'は現在より後の時刻を指定してください') if self.start_time < Time.now
-  end
-
   has_one :reservation, dependent: :destroy
   has_one :reserve_student, through: :reservation, source: :student
   has_one :feedback
   has_one :report
   belongs_to :teacher
   belongs_to_active_hash :language
+
+  MEETING_DURATION_MINUTES = 50
+  MIN_HOUR = 7
+  MAX_HOUR = 22
+  REGISTARABLE_ATTRIBUTES = %i(
+    teacher_id
+    start_time(1i) start_time(2i) start_time(3i) start_time(4i)
+    language_id
+  )
+
+  validates :start_time, uniqueness: { scope: :teacher_id }
+  validates :language, presence: true
+  validate :start_time_expect_to_be_after_now
+  validate :start_hour_in_range
+
+  def start_time_expect_to_be_after_now
+    errors.add(:start_time, 'は現在より後の時刻を指定してください') if self.start_time < Time.now
+  end
+
+  def start_hour_in_range
+    errors.add(:start_time, "は#{MIN_HOUR}時から#{MAX_HOUR}時の間で指定してください") unless start_time.hour.between?(MIN_HOUR, MAX_HOUR)
+  end
 
   scope :from_now, -> { where(start_time: Time.now..) }
   scope :sorted, -> { order(start_time: :asc) }
@@ -24,12 +37,6 @@ class Lesson < ApplicationRecord
   }
   scope :fetch_start_time_local, -> { select("(lessons.start_time + interval '9 hour') as start_time_local") }
   scope :fetch_group_columns, -> { select([:teacher_id, :language_id]) }
-
-  REGISTARABLE_ATTRIBUTES = %i(
-    teacher_id
-    start_time(1i) start_time(2i) start_time(3i) start_time(4i)
-    language_id
-  )
 
   def end_time
     start_time + MEETING_DURATION_MINUTES.minute
@@ -132,6 +139,12 @@ class LessonRangeQuery
   def too_mach_time_difference
     errors.add(:end_date, '期間は1か月以内である必要があります') if end_date > 1.month.after(start_date)
   end
-  validates :start_hour, presence: true, numericality: { greater_than_or_equal_to: 7, less_than_or_equal_to: 22 }
-  validates :end_hour, presence: true, numericality: { greater_than_or_equal_to: :start_hour, less_than_or_equal_to: 22 }
+  validates :start_hour, presence: true, numericality: {
+    greater_than_or_equal_to: Lesson::MIN_HOUR,
+    less_than_or_equal_to: Lesson::MAX_HOUR
+  }
+  validates :end_hour, presence: true, numericality: {
+    greater_than_or_equal_to: :start_hour,
+    less_than_or_equal_to: Lesson::MAX_HOUR
+  }
 end

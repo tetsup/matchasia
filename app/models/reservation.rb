@@ -1,4 +1,7 @@
 class Reservation < ApplicationRecord
+  belongs_to :student
+  belongs_to :lesson
+
   validates :lesson, uniqueness: true
   validates :start_url, :join_url, {
     presence: true,
@@ -11,19 +14,19 @@ class Reservation < ApplicationRecord
     errors.add(:lesson, '開始時刻を過ぎているレッスンは予約できません') if lesson.started?
   end
 
-  belongs_to :student
-  belongs_to :lesson
-
   scope :load_lesson_not_started, lambda {
     eager_load(:lesson)
       .where('lessons.start_time > ?', Time.now.ago(Lesson::MEETING_DURATION_MINUTES.minute))
   }
   scope :sorted, -> { order('lessons.start_time asc') }
 
+  def create
+  end
+
   def assign_zoom_url!
-    if lesson.valid? && !Reservation.where(lesson: lesson).exists?
+    if lesson.valid? && !Reservation.where(lesson: lesson).exists? # zoomの処理には入れるべきではない → 予約処理の判定
       zoom_client = Zoom.new
-      user_id = zoom_client.user_list['users'].first['id']
+      user_id = zoom_client.user_list['users'].first['id'] # 何が取り出されるのか
       meeting = zoom_client.meeting_create(
         user_id: user_id,
         start_time: lesson.start_time.in_time_zone('UTC'),

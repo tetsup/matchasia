@@ -1,6 +1,8 @@
 class Student < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  has_many :reservations
+
   validates :username,
     presence: true,
     length: { in: 3..20 },
@@ -12,7 +14,6 @@ class Student < ApplicationRecord
       only_integer: true,
       greater_than_or_equal_to: 0
     }
-  has_many :reservations
 
   INSTANT_TICKET_PRODUCTS = {
     1 => { amount: 2200, currency: 'jpy', description: 'チケット1枚' },
@@ -21,9 +22,9 @@ class Student < ApplicationRecord
   }
 
   def buy_tickets!(ticket_qty, email, token)
-    product = INSTANT_TICKET_PRODUCTS[ticket_qty]
+    product = INSTANT_TICKET_PRODUCTS[ticket_qty] # 通っちゃう
     customer = Stripe::Customer.create({ email: email, source: token })
     Stripe::Charge.create(product.merge({ customer: customer.id }))
-    self.tickets += ticket_qty
+  rescue Stripe::CardError => e
   end
 end
