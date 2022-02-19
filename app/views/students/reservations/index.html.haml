@@ -1,0 +1,17 @@
+= link_to 'レッスン一覧', students_lessons_path
+%table.table
+  %tr
+    %th 開始日時
+    %th 言語
+    %th 講師
+    %th zoomリンク
+  - @reservations.each do |reservation|
+    %tr
+      %td
+        = reservation.lesson.start_time.to_s(:datetime_jp)
+      %td
+        = reservation.lesson.language.name
+      %td
+        = link_to reservation.lesson.teacher.username, teacher_path(reservation.lesson.teacher_id)
+      %td
+        = link_to '開く', reservation.join_url

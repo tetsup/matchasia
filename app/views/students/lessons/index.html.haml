@@ -1,0 +1,26 @@
+= link_to '予約一覧', students_reservations_path
+= simple_form_for @form_lesson, url: students_lessons_path, method: :get do |f|
+  = f.association :language, required: false
+  = f.button :submit, '検索', class: 'btn-primary'
+%table.table
+  %tr
+    %th 開始日時
+    %th 言語
+    %th 講師
+    %th 予約者
+    %th 予約
+  - @lessons.each do |lesson|
+    %tr
+      %td
+        = lesson.start_time.to_s(:datetime_jp)
+      %td
+        = lesson.language.name
+      %td
+        = link_to lesson.teacher.username, teacher_path(lesson.teacher.id)
+      %td
+        = lesson.reservation&.student&.username
+      %td
+        - if lesson.reservation.nil?
+          = button_to '予約', students_lesson_reservation_path(lesson.id), method: :post, class: 'btn btn-primary'
+        - else
+          = '-'

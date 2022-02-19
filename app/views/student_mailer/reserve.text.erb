@@ -1,0 +1,5 @@
+予約内容
+- 開始日時: <%= @reservation.lesson.start_time.to_s(:datetime_jp) %>
+- 講師名: <%= @reservation.lesson.teacher.username %>
+- 言語: <%= @reservation.lesson.language.name %>
+- zoom url: <%= @reservation.join_url %>

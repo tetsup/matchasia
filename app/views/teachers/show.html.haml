@@ -1,0 +1,16 @@
+%h2
+  講師プロフィール
+- if @teacher.photo.present?
+  = cl_image_tag @teacher.photo.key, width: 100, crop: 'thumb', transformation: { radius: 'max' }, alt: 'photo'
+%h3
+  講師名
+= @teacher.username
+%h3
+  メールアドレス
+= @teacher.email
+%h3
+  自己PR
+= simple_format @teacher.about
+%h3
+  言語
+= @teacher.language&.name

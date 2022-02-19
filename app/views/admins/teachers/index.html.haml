@@ -1,0 +1,23 @@
+= link_to '講師新規作成', new_teacher_registration_path
+%table.table
+  %thead
+    %tr
+      %th ユーザー名
+      %th E-Mail
+      %th 登録日
+      %th 本登録日
+      %th 処理
+  %tbody
+    - @teachers.each do |t|
+      %tr
+        %td
+          = link_to t.username, teacher_path(t.id)
+        %td
+          = t.email
+        %td
+          = t.created_at.to_s
+        %td
+          = t.confirmed_at.to_s
+        %td
+          = button_to '代理ログイン', become_admins_teacher_path(t), method: :post, class: 'btn btn-primary'
+          = button_to '削除', admins_teacher_path(t), method: :delete, class: 'btn btn-danger'
