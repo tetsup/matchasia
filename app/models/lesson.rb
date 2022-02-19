@@ -22,7 +22,7 @@ class Lesson < ApplicationRecord
   validate :start_hour_in_range
 
   def start_time_expect_to_be_after_now
-    errors.add(:start_time, 'は現在より後の時刻を指定してください') if self.start_time < Time.now
+    errors.add(:start_time, 'は現在より後の時刻を指定してください') if start_time < Time.now
   end
 
   def start_hour_in_range
