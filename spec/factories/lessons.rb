@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :lesson do
     association :teacher
-    start_time { 1.hours.from_now.ceil_to(1.hours) }
+    start_time { Time.now.ceil_to(1.hours) }
     language_id { 1 }
 
     trait :started_last_hour do

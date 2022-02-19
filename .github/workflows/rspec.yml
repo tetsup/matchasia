@@ -1,0 +1,26 @@
+name: rspec
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker-compose up
+        run: docker-compose up -d
+      - name: Run rspec
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          docker-compose run -e RAILS_MASTER_KEY web rake webpacker:install RAILS_ENV=test
+          docker-compose run -e RAILS_MASTER_KEY web rake db:create RAILS_ENV=test
+          docker-compose run -e RAILS_MASTER_KEY web rake db:migrate RAILS_ENV=test
+          docker-compose run -e RAILS_MASTER_KEY web rspec
+      - name: Simplecov Report
+        uses: aki77/simplecov-report-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        if: ${{ github.event_name == 'pull_request' }}

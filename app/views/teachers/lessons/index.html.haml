@@ -5,6 +5,8 @@
     %th 言語
     %th 受講者
     %th zoomリンク
+    %th フィードバック
+    %th レポート
   - @lessons.each do |lesson|
     %tr
       %td
@@ -12,6 +14,21 @@
       %td
         = lesson.language.name
       %td
-        = lesson.reserve_student&.username
+        - if lesson.reserve_student.present?
+          = link_to lesson.reserve_student.username, teachers_student_path(lesson.reserve_student.id)
       %td
         = lesson.reservation.present? ? (link_to '開く', lesson.reservation.start_url) : '-'
+      %td.lesson_feedback
+        - if lesson.feedback.present?
+          = link_to '編集', edit_teachers_lesson_feedback_path(lesson)
+        - elsif lesson.finished? && lesson.reservation.present?
+          = link_to '作成', new_teachers_lesson_feedback_path(lesson)
+        - else
+          = '-'
+      %td.lesson_report
+        - if lesson.report.present?
+          = link_to '編集', edit_teachers_lesson_report_path(lesson)
+        - elsif lesson.finished? && lesson.reservation.present?
+          = link_to '作成', new_teachers_lesson_report_path(lesson)
+        - else
+          = '-'

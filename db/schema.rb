@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_06_100944) do
+ActiveRecord::Schema.define(version: 2021_12_23_141441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,14 @@ ActiveRecord::Schema.define(version: 2021_12_06_100944) do
     t.index ["email"], name: "index_admins_on_email", unique: true
   end
 
+  create_table "feedbacks", force: :cascade do |t|
+    t.bigint "lesson_id"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lesson_id"], name: "index_feedbacks_on_lesson_id"
+  end
+
   create_table "lessons", force: :cascade do |t|
     t.bigint "teacher_id", null: false
     t.datetime "start_time", null: false
@@ -60,6 +68,14 @@ ActiveRecord::Schema.define(version: 2021_12_06_100944) do
     t.index ["language_id"], name: "index_lessons_on_language_id"
     t.index ["teacher_id", "start_time"], name: "index_lessons_on_teacher_id_and_start_time", unique: true
     t.index ["teacher_id"], name: "index_lessons_on_teacher_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.bigint "lesson_id"
+    t.text "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lesson_id"], name: "index_reports_on_lesson_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -80,7 +96,7 @@ ActiveRecord::Schema.define(version: 2021_12_06_100944) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "tickets", default: 0, null: false
+    t.integer "tickets", default: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_students_on_email", unique: true

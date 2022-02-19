@@ -1,0 +1,7 @@
+レッスン内容
+- 開始日時: <%= @feedback.lesson.start_time.to_s(:datetime_jp) %>
+- 講師名: <%= @feedback.lesson.teacher.username %>
+- 言語: <%= @feedback.lesson.language.name %>
+
+フィードバックコメント
+- <%= @feedback.content %>

@@ -1,0 +1,18 @@
+%h2
+  フィードバック編集
+%h3
+  レッスン情報
+%h4
+  開始日時
+= @lesson.start_time.to_s(:datetime_jp)
+%h4
+  言語
+= @lesson.language.name
+%h4
+  受講者
+= @lesson.reservation.student.username
+%h3
+  フィードバック
+= simple_form_for @feedback, url: teachers_lesson_feedback_path, method: :post do |f|
+  = f.input :content, label: 'フィードバックコメント'
+  = f.button :submit, '送信', class: 'btn-primary'

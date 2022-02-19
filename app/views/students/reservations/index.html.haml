@@ -5,6 +5,7 @@
     %th 言語
     %th 講師
     %th zoomリンク
+    %th フィードバック
   - @reservations.each do |reservation|
     %tr
       %td
@@ -14,4 +15,10 @@
       %td
         = link_to reservation.lesson.teacher.username, teacher_path(reservation.lesson.teacher_id)
       %td
-        = link_to '開く', reservation.join_url
+        - unless reservation.lesson.finished?
+          = link_to '開く', reservation.join_url
+        - else
+          終了
+      %td.lesson_feedback
+        - if reservation.lesson.feedback.present?
+          = link_to '確認', students_lesson_feedback_path(reservation.lesson.id)

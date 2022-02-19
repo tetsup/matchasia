@@ -1,0 +1,29 @@
+%h2
+  受講者情報
+%h3
+  受講者名
+= @student.username
+%h3
+  受講履歴
+%table.table
+  %thead
+    %tr
+      %th
+        開始日時
+      %th
+        言語
+      %th
+        講師
+      %th
+        レポート
+  %tbody
+    - @reservations.each do |reservation|
+      %tr
+        %td
+          = reservation.lesson.start_time.to_s(:datetime_jp)
+        %td
+          = reservation.lesson.language.name
+        %td
+          = link_to reservation.lesson.teacher.username, teacher_path(reservation.lesson.teacher.id)
+        %td
+          = simple_format reservation.lesson.report&.content

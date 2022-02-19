@@ -1,0 +1,16 @@
+%h2
+  フィードバック確認
+%h3
+  レッスン情報
+%h4
+  開始日時
+= @lesson.start_time.to_s(:datetime_jp)
+%h4
+  言語
+= @lesson.language.name
+%h4
+  講師
+= link_to @lesson.teacher.username, teacher_path(@lesson.teacher.id)
+%h3
+  フィードバック
+= simple_format @lesson.feedback.content

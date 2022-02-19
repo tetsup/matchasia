@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resource :tickets, only: [:new, :create]
     resources :lessons, only: [:index] do
       resource :reservation, only: [:create], module: :lessons
+      resource :feedback, only: [:show], module: :lessons
     end
     resources :reservations, only: [:index]
   end
@@ -23,7 +24,11 @@ Rails.application.routes.draw do
     end
   end
   namespace :teachers do
-    resources :lessons, only: [:index, :new, :create]
+    resources :lessons, only: [:index, :new, :create] do
+      resource :feedback, only: [:new, :edit, :create], module: :lessons
+      resource :report, only: [:new, :edit, :create], module: :lessons
+    end
+    resources :students, only: [:show]
   end
   resources :teachers, only: [:show]
   Rails.env.development? && mount(LetterOpenerWeb::Engine, at: '/letter_opener')
