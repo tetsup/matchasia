@@ -7,14 +7,20 @@ Rails.application.routes.draw do
   devise_for :students, controllers: {
     registrations: 'students/registrations',
   }
+  mount StripeEvent::Engine, at: '/stripe/webhook'
   root to: 'home#index'
   namespace :students do
-    resource :tickets, only: [:new, :create]
     resources :lessons, only: [:index] do
       resource :reservation, only: [:create], module: :lessons
       resource :feedback, only: [:show], module: :lessons
     end
     resources :reservations, only: [:index]
+    resources :payments, only: [:new, :create] do
+      collection do
+        get :success
+        get :cancel
+      end
+    end
   end
   namespace :admins do
     resources :teachers, only: [:index, :destroy] do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_19_033328) do
+ActiveRecord::Schema.define(version: 2022_02_19_224557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,18 @@ ActiveRecord::Schema.define(version: 2022_02_19_033328) do
     t.index ["language_id"], name: "index_lessons_on_language_id"
     t.index ["teacher_id", "start_time"], name: "index_lessons_on_teacher_id_and_start_time", unique: true
     t.index ["teacher_id"], name: "index_lessons_on_teacher_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.string "payment_intent"
+    t.bigint "price_id", null: false
+    t.integer "payment_phase", default: 0, null: false
+    t.integer "tickets_before"
+    t.integer "tickets_after"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["student_id"], name: "index_payments_on_student_id"
   end
 
   create_table "reports", force: :cascade do |t|
@@ -129,6 +141,7 @@ ActiveRecord::Schema.define(version: 2022_02_19_033328) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "lessons", "teachers"
+  add_foreign_key "payments", "students"
   add_foreign_key "reservations", "lessons"
   add_foreign_key "reservations", "students"
 end

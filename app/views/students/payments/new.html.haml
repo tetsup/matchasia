@@ -1,0 +1,9 @@
+%h2
+  チケットの確認・購入
+%p
+  = "所有チケット:"
+  %span#tickets
+    = current_student.tickets
+= simple_form_for @payment, url: students_payments_path, method: :post do |f|
+  = f.input :price, label: '購入商品と価格', as: :select, collection: Price.all, include_blank: false
+  = f.button :submit, '決済画面へ進む', class: 'btn-primary'

@@ -326,6 +326,9 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stripe (5.41.0)
+    stripe_event (2.3.1)
+      activesupport (>= 3.1)
+      stripe (>= 2.8, < 6)
     sysexits (1.2.0)
     temple (0.8.2)
     thor (1.1.0)
@@ -395,6 +398,7 @@ DEPENDENCIES
   simplecov
   spring
   stripe
+  stripe_event
   turbolinks
   tzinfo-data
   web-console

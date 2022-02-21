@@ -9,3 +9,4 @@ COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 COPY . /app
+COPY --from=stripe/stripe-cli:latest /bin/stripe /usr/bin/stripe
