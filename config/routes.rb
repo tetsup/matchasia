@@ -22,9 +22,20 @@ Rails.application.routes.draw do
         post :become
       end
     end
+    resources :reservations, only: [:index] do
+      collection do
+        get :by_teacher
+        get :by_language
+      end
+    end
   end
   namespace :teachers do
     resources :lessons, only: [:index, :new, :create] do
+      collection do
+        get :bulk_search
+        get :bulk_new
+        post :bulk_create
+      end
       resource :feedback, only: [:new, :edit, :create], module: :lessons
       resource :report, only: [:new, :edit, :create], module: :lessons
     end

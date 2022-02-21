@@ -4,7 +4,7 @@ class Student < ApplicationRecord
   validates :username,
     presence: true,
     length: { in: 3..20 },
-    format: { with: /\A[a-zA-Z]+\z/ },
+    format: { with: /\A[a-zA-Z][a-zA-Z0-9]+\z/ },
     uniqueness: true
   validates :tickets,
     presence: true,

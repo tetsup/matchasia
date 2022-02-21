@@ -1,0 +1,21 @@
+%h2
+  時間別予約率
+= render 'links'
+= simple_form_for :query, url: admins_reservations_path, method: :get do |f|
+  = f.input :start_date, as: :date, label: '開始', html5: true, input_html: { value: @start_date }
+  = f.input :end_date, as: :date, label: '終了', html5: true, input_html: { value: @end_date }
+  = f.button :submit, '検索', class: 'btn-primary'
+%table.table
+  %thead
+    %tr
+      %th 日付
+      - (7..22).each do |hour|
+        %th
+          = hour
+  %tbody
+    - (@start_date..@end_date).each do |date|
+      %tr
+        %th
+          = date.to_s(:datetime_jp)
+        - (7..22).each do |hour|
+          = colored_td(@reservations_counts[[date, hour]], @lessons_counts[[date, hour]])

@@ -1,0 +1,12 @@
+td.reserved-rate-high {
+  color: white;
+  background-color: red;
+}
+td.reserved-rate-middle {
+  color: black;
+  background-color: pink;
+}
+td.reserved-rate-low {
+  color: white;
+  background-color: blue;
+}

@@ -1,0 +1,17 @@
+%h2
+  講師別予約率
+= render 'links'
+%table.table
+  %thead
+    %tr
+      %th 日付
+      - @teachers.each do |teacher|
+        %th
+          = link_to teacher.username, teacher_path(teacher.id)
+  %tbody
+    - (@start_date..@end_date).each do |date|
+      %tr
+        %th
+          = date.to_s(:date_jp_weekday)
+        - @teachers.each do |teacher|
+          = colored_td(@reservations_counts[[date, teacher.id]], @lessons_counts[[date, teacher.id]])

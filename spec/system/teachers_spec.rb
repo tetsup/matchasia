@@ -77,4 +77,66 @@ RSpec.feature 'Teachers', type: :system do
     visit teachers_student_path(reservation.student)
     expect(page).to have_content report_content
   end
+
+  it 'creates various lessons as teacher' do
+    travel_to Time.new(2021, 12, 31)
+    teacher = FactoryBot.create(:teacher)
+    expect {
+      sign_in_as_teacher teacher
+      click_link 'レッスン管理'
+      click_link '一括作成'
+      fill_in '開始日', with: '2022/02/11'
+      fill_in '終了日', with: '2022/02/18'
+      select '9', from: '開始時刻'
+      select '11', from: '終了時刻'
+      click_button '検索'
+      select '中国語', from: '言語'
+      click_button '一括登録'
+    }.to change(Lesson, :count).by(24)
+    travel_back
+    expect(page).to have_content '24件のレッスンを一括登録しました'
+  end
+
+  it 'creates verious lessons except unchecked as teacher' do
+    travel_to Time.new(2021, 12, 31)
+    teacher = FactoryBot.create(:teacher)
+    expect {
+      sign_in_as_teacher teacher
+      click_link 'レッスン管理'
+      click_link '一括作成'
+      fill_in '開始日', with: '2022/02/11'
+      fill_in '終了日', with: '2022/02/18'
+      select '9', from: '開始時刻'
+      select '11', from: '終了時刻'
+      click_button '検索'
+      select '中国語', from: '言語'
+      # ラベルがないチェックボックスに対するuncheckがElementNotFoundエラーになると思われるため、click
+      find(:xpath, '//input[@type="checkbox"][@name="lessons[start_time[2022-02-11 9]]"]').click
+      find(:xpath, '//input[@type="checkbox"][@name="lessons[start_time[2022-02-11 11]]"]').click
+      click_button '一括登録'
+    }.to change(Lesson, :count).by(22)
+    travel_back
+    expect(page).to have_content '22件のレッスンを一括登録しました'
+  end
+
+  it 'creates verious lessons except already exists as teacher' do
+    travel_to Time.new(2021, 12, 31)
+    teacher = FactoryBot.create(:teacher)
+    FactoryBot.create(:lesson, start_time: Time.new(2022, 2, 11, 9), teacher: teacher)
+    FactoryBot.create(:lesson, start_time: Time.new(2022, 2, 11, 11), teacher: teacher)
+    expect {
+      sign_in_as_teacher teacher
+      click_link 'レッスン管理'
+      click_link '一括作成'
+      fill_in '開始日', with: '2022/02/11'
+      fill_in '終了日', with: '2022/02/18'
+      select '9', from: '開始時刻'
+      select '11', from: '終了時刻'
+      click_button '検索'
+      select '中国語', from: '言語'
+      click_button '一括登録'
+    }.to change(Lesson, :count).by(22)
+    travel_back
+    expect(page).to have_content '22件のレッスンを一括登録しました'
+  end
 end

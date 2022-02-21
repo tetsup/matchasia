@@ -17,5 +17,6 @@
   - if admin_signed_in?
     = button_to '管理者ログアウト', destroy_admin_session_path, method: :delete, class: 'btn btn-secondary'
     = link_to '講師管理', admins_teachers_path
+    = link_to '予約率分析', admins_reservations_path
   - else
     = link_to '管理者ログイン', new_admin_session_path

@@ -1,0 +1,17 @@
+%h2
+  言語別予約率
+= render 'links'
+%table.table
+  %thead
+    %tr
+      %th 日付
+      - @languages.each do |language|
+        %th
+          = language.name
+  %tbody
+    - month_enum(*Lesson.date_range).each do |month|
+      %tr
+        %th
+          = link_to month.to_s(:month_jp), by_language_admins_reservations_path(create_daily_query_params(month))
+        - @languages.each do |language|
+          = colored_td(@reservations_counts[[month + 9.hours, language.id]], @lessons_counts[[month + 9.hours, language.id]])
