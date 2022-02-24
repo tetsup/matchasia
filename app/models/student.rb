@@ -1,6 +1,9 @@
 class Student < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  has_many :reservations
+  has_many :payments
+
   validates :username,
     presence: true,
     length: { in: 3..20 },
@@ -12,9 +15,6 @@ class Student < ApplicationRecord
       only_integer: true,
       greater_than_or_equal_to: 0
     }
-  has_many :reservations
-  has_many :payments
-
   def create_stripe_customer_id
     return if stripe_customer_id.present?
 
