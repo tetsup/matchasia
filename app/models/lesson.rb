@@ -20,6 +20,7 @@ class Lesson < ApplicationRecord
   validates :language, presence: true
   validate :start_time_expect_to_be_after_now
   validate :start_hour_in_range
+  validate :valid_zoom_id
 
   def start_time_expect_to_be_after_now
     errors.add(:start_time, 'は現在より後の時刻を指定してください') if start_time < Time.now
@@ -27,6 +28,11 @@ class Lesson < ApplicationRecord
 
   def start_hour_in_range
     errors.add(:start_time, "は#{MIN_HOUR}時から#{MAX_HOUR}時の間で指定してください") unless start_time.hour.between?(MIN_HOUR, MAX_HOUR)
+  end
+
+  def valid_zoom_id
+    # 毎回zoom apiをたたくことで、一括登録が重くなる -> bulk insertにすると早くなるが、バリデーション処理が煩雑になる
+    errors.add(:teacher, 'は、zoomアカウントを有効化していません') unless Zoom.new.user_email_check(email: teacher.email)['existed_email']
   end
 
   scope :from_now, -> { where(start_time: Time.now..) }
