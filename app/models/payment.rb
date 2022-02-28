@@ -11,12 +11,18 @@ class Payment < ApplicationRecord
   end
   validates :tickets_before, numericality: { greater_than: 0, allow_nil: true }
   validates :tickets_after, numericality: { greater_than: :tickets_before, allow_nil: true }
-  enum payment_phase: { requested: 0, extended: 1, canceled: -1 }
+  enum payment_phase: { requested: 0, extended: 1 }
+
+  TAX_ID = 'txr_1Jy6D3CGxjuXgfl8RakSQn6O'.freeze
 
   def stripe_session(success_url, cancel_url)
     session = Stripe::Checkout::Session.create({
       customer: student.stripe_customer_id,
-      line_items: [{ price: price[:stripe_price_id], quantity: 1 }],
+      line_items: [{
+        price: price[:stripe_price_id],
+        quantity: 1,
+        tax_rates: [TAX_ID]
+      }],
       mode: 'payment',
       success_url: success_url,
       cancel_url: cancel_url
