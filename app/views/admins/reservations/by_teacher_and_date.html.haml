@@ -14,4 +14,4 @@
         %th
           = date.to_s(:date_jp_weekday)
         - @teachers.each do |teacher|
-          = colored_td(@reservations_counts[[date, teacher.id]], @lessons_counts[[date, teacher.id]])
+          = render 'td_reserved_rate', reservations_count: @reservations_counts[[date, teacher.id]], lessons_count: @lessons_counts[[date, teacher.id]]

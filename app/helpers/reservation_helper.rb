@@ -1,5 +1,5 @@
 module ReservationHelper
-  def get_style_class(rate)
+  def style_class_by_reserved_rate(rate)
     if rate.blank?
       nil
     elsif rate > 85
@@ -11,21 +11,12 @@ module ReservationHelper
     end
   end
 
-  def colored_td(reservations_count, lessons_count)
-    params = {}
-    params[:reservations_count] = reservations_count || 0
-    params[:lessons_count] = lessons_count
-    params[:reserved_rate] = lessons_count && (params[:reservations_count] * 100 / params[:lessons_count])
-    params[:style_class] = get_style_class(params[:reserved_rate])
-    render inline: <<-HAML.strip_heredoc, type: :haml, locals: params
-      - if lessons_count.blank?
-        %td -
-      - else
-        %td{class: "#{params[:style_class]}"}
-          #{params[:reservations_count]} / #{params[:lessons_count]}
-          %br
-          (#{params[:reserved_rate]}%)
-    HAML
+  def reserved_rate(reservations_count, lessons_count)
+    if lessons_count.blank?
+      nil
+    else
+      (reservations_count || 0) * 100 / lessons_count
+    end
   end
 
   def create_daily_query_params(month)
