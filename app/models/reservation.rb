@@ -28,7 +28,7 @@ class Reservation < ApplicationRecord
 
     return false unless spend_ticket
 
-    zoom_meeting
+    assign_zoom_meeting
     return false unless valid?
 
     ActiveRecord::Base.transaction do
@@ -50,12 +50,16 @@ class Reservation < ApplicationRecord
     # (実際にはミーティング開く人がいないので実害はないが、講師のzoom管理画面からは開始出来てしまう)
   end
 
-  def zoom_meeting
-    meeting = Zoom.new.meeting_create(
+  def create_zoom_meeting
+    Zoom.new.meeting_create(
       user_id: lesson.teacher.zoom_user_id,
       start_time: lesson.start_time.in_time_zone('UTC'),
       duration: Lesson::MEETING_DURATION_MINUTES
     )
+  end
+
+  def assign_zoom_meeting
+    meeting = create_zoom_meeting
     self.start_url = meeting['start_url']
     self.join_url = meeting['join_url']
   end
