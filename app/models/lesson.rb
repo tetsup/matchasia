@@ -32,7 +32,9 @@ class Lesson < ApplicationRecord
 
   def valid_zoom_id
     # 毎回zoom apiをたたくことで、一括登録が重くなる -> bulk insertにすると早くなるが、バリデーション処理が煩雑になる
-    errors.add(:teacher, 'は、zoomアカウントを有効化していません') unless Zoom.new.user_email_check(email: teacher.email)['existed_email']
+    # ToDo: コントローラのbefore_actionに書いた方が良さそう -> そのまま登録を促すページに飛ばす
+    #       予約側は例外処理だけで十分
+    errors.add(:teacher, 'は、zoomアカウントを有効化していません') unless teacher.zoom_user_available?
   end
 
   scope :from_now, -> { where(start_time: Time.now..) }
