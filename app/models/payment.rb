@@ -35,8 +35,10 @@ class Payment < ApplicationRecord
     payment = find_by(payment_intent: webhook_event.data.object.payment_intent)
     payment.student.stripe_customer_id != webhook_event.data.object.customer && (raise ActionController::BadRequest)
     payment
-  rescue ActionController::BadRequest
-    logger.error "checkout.session.completedイベントのデータ不整合(payment_intent: #{webhook_event.payment_intent})"
+  rescue StandardError => e
+    logger.fatal "checkout.session.completedイベントのデータ不整合(payment_intent: #{webhook_event.payment_intent})"
+    logger.fatal e.backtrace.join('\n')
+    AdminMailer.failed_to_payment_verification(self)
     nil
   end
 
@@ -51,8 +53,10 @@ class Payment < ApplicationRecord
       payment.payment_phase = :extended
       payment.student.save!
       payment.save!
-    rescue StandardError # 何が起きたとしてもインシデントとして報告
-      logger.error "チケット購入時の追加処理でエラー(payment_intent: #{webhook_event.payment_intent})"
+    rescue StandardError => e
+      logger.fatal "チケット購入時の追加処理でエラー(payment_intent: #{webhook_event.payment_intent})"
+      logger.fatal e.backtrace.join('\n')
+      AdminMailer.failed_to_payment_verification(self)
     end
   end
 end

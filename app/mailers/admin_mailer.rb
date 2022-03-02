@@ -14,4 +14,12 @@ class AdminMailer < ApplicationMailer
       subject: 'zoomアカウントの追加に失敗しました'
     )
   end
+
+  def failed_to_payment_verification(payment)
+    @payment = payment
+    mail(
+      to: Admin.pluck(:email),
+      subject: '決済の完了処理に失敗しました'
+    )
+  end
 end
