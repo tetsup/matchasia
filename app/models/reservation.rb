@@ -44,9 +44,8 @@ class Reservation < ApplicationRecord
     self.tickets_before = student.tickets
     student.tickets -= 1
     self.tickets_after = student.tickets
-    # student.valid?
-    # ここでチケットだけをバリデーションしてzoom会議作成を抑制したい
-    # (実際にはミーティング開く人がいないので実害はないが、講師のzoom管理画面からは開始出来てしまう)
+    # 本当はstudent.valid?とDRYにしたいが、ticketsのバリデーションだけ判定するのが難しい
+    student.tickets >= 0
   end
 
   def create_zoom_meeting
