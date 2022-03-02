@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Lesson, type: :model do
+  before do
+    zoom_mock
+  end
+
   it 'generates associated data from a factory' do
     FactoryBot.create(:lesson)
   end

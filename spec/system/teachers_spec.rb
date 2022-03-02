@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Teachers', type: :system do
+  before do
+    zoom_mock
+  end
+
   it 'creates a new lesson as teacher' do
     teacher = FactoryBot.create(:teacher)
     sign_in_as_teacher teacher

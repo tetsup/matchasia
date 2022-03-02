@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Report, type: :model do
+  before do
+    zoom_mock
+  end
+
   it 'generates associated data from a factory' do
     travel_to 2.hours.ago
     reservation = FactoryBot.create(:reservation)
