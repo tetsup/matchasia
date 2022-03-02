@@ -7,8 +7,7 @@ class Reservation < ApplicationRecord
     validates :tickets_before, :tickets_after
     validates :start_url, :join_url, {
       format: { with: %r{https?://.+} },
-      uniqueness: true,
-      unless: :spend_ticket
+      uniqueness: true
     }
   end
   validate :lesson_start_time_expect_to_be_after_now
