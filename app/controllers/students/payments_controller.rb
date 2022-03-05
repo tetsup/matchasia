@@ -9,7 +9,7 @@ class Students::PaymentsController < ApplicationController
     current_student.create_stripe_customer_id
     payment = current_student.payments.build({ price_id: price_params[:price] })
     session = payment.stripe_session(
-      "#{success_students_payments_url}?session_id={CHECKOUT_SESSION_ID}",
+      success_students_payments_url,
       cancel_students_payments_url
     )
     payment.save!
