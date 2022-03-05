@@ -41,6 +41,7 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'stripe-ruby-mock'
   gem 'webdrivers'
 end
 
