@@ -12,8 +12,11 @@ class Students::PaymentsController < ApplicationController
       success_students_payments_url,
       cancel_students_payments_url
     )
-    payment.save!
-    redirect_to session.url, status: :see_other
+    if payment.save
+      redirect_to session.url, status: :see_other
+    else
+      redirect_to new_students_payment_path, alert: payment.errors.full_messages.join(', ')
+    end
   end
 
   def success
