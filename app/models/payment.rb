@@ -16,6 +16,7 @@ class Payment < ApplicationRecord
   TAX_ID = 'txr_1Jy6D3CGxjuXgfl8RakSQn6O'.freeze
 
   def stripe_session(success_url, cancel_url)
+    student.create_stripe_customer_id!
     session = Stripe::Checkout::Session.create({
       customer: student.stripe_customer_id,
       line_items: [{

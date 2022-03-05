@@ -6,7 +6,6 @@ class Students::PaymentsController < ApplicationController
   end
 
   def create
-    current_student.create_stripe_customer_id
     payment = current_student.payments.build({ price_id: price_params[:price] })
     session = payment.stripe_session(
       success_students_payments_url,

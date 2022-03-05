@@ -16,7 +16,7 @@ class Student < ApplicationRecord
       }
   end
 
-  def create_stripe_customer_id
+  def create_stripe_customer_id!
     return if stripe_customer_id.present?
 
     customer = Stripe::Customer.create({ email: email })
