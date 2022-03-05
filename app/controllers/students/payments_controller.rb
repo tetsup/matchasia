@@ -2,12 +2,12 @@ class Students::PaymentsController < ApplicationController
   before_action :authenticate_student!
 
   def new
-    @payment = current_student.payments.new
+    @payment = current_student.payments.build
   end
 
   def create
     current_student.create_stripe_customer_id
-    payment = current_student.payments.new({ price_id: price_params[:price] })
+    payment = current_student.payments.build({ price_id: price_params[:price] })
     session = payment.stripe_session(
       "#{success_students_payments_url}?session_id={CHECKOUT_SESSION_ID}",
       cancel_students_payments_url
