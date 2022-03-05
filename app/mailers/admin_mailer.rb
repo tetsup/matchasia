@@ -15,11 +15,19 @@ class AdminMailer < ApplicationMailer
     )
   end
 
-  def failed_to_payment_verification(payment)
-    @payment = payment
+  def failed_to_payment_verification(event)
+    @event = event
     mail(
       to: Admin.pluck(:email),
       subject: '決済の完了処理に失敗しました'
+    )
+  end
+
+  def failed_to_extend_tickets(payment)
+    @payment = payment
+    mail(
+      to: Admin.pluck(:email),
+      subject: 'チケットの追加処理に失敗しました'
     )
   end
 end

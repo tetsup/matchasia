@@ -57,7 +57,7 @@ class Payment < ApplicationRecord
     rescue StandardError => e
       logger.fatal "チケット購入時の追加処理でエラー(payment_intent: #{payment_intent})"
       logger.fatal e.backtrace.join('\n')
-      AdminMailer.failed_to_payment_verification(self)
+      AdminMailer.failed_to_extend_tickets(self)
       raise
     end
   end
