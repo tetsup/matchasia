@@ -32,31 +32,33 @@ class Payment < ApplicationRecord
   end
 
   def self.from_event(webhook_event)
-    payment = find_by(payment_intent: webhook_event.data.object.payment_intent)
+    payment = find_by(payment_intent: webhook_event.data.object.id)
+    payment.nil? && (raise ActionController::BadRequest)
     payment.student.stripe_customer_id != webhook_event.data.object.customer && (raise ActionController::BadRequest)
     payment
   rescue StandardError => e
-    logger.fatal "checkout.session.completedイベントのデータ不整合(payment_intent: #{webhook_event.payment_intent})"
+    logger.fatal 'payment_intent.succeededイベントのデータ不整合'
+    logger.fatal webhook_event
     logger.fatal e.backtrace.join('\n')
-    AdminMailer.failed_to_payment_verification(self)
-    nil
+    AdminMailer.failed_to_payment_verification(webhook_event)
+    raise
   end
 
-  def self.extend_tickets(webhook_event)
-    payment = from_event(webhook_event)
-    return if payment.nil?
-
+  def extend_tickets!
     ActiveRecord::Base.transaction do
-      payment.tickets_before = payment.student.tickets
-      payment.student.tickets += payment.price.tickets
-      payment.tickets_after = payment.student.tickets
-      payment.payment_phase = :extended
-      payment.student.save!
-      payment.save!
+      return unless requested?
+
+      self.tickets_before = student.tickets
+      student.tickets += price.tickets
+      self.tickets_after = student.tickets
+      extended!
+      student.save!
+      save!
     rescue StandardError => e
-      logger.fatal "チケット購入時の追加処理でエラー(payment_intent: #{webhook_event.payment_intent})"
+      logger.fatal "チケット購入時の追加処理でエラー(payment_intent: #{payment_intent})"
       logger.fatal e.backtrace.join('\n')
       AdminMailer.failed_to_payment_verification(self)
+      raise
     end
   end
 end

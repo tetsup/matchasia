@@ -11,8 +11,8 @@ module Stripe
       Raven.capture_exception(e)
     end
 
-    def handle_checkout_session_completed(event)
-      Payment.extend_tickets(event)
+    def handle_payment_intent_succeeded(event)
+      Payment.from_event(event).extend_tickets!
     end
   end
 end
