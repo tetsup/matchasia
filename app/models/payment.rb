@@ -9,7 +9,7 @@ class Payment < ApplicationRecord
     validates :price
     validates :payment_phase
   end
-  validates :tickets_before, numericality: { greater_than: 0, allow_nil: true }
+  validates :tickets_before, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :tickets_after, numericality: { greater_than: :tickets_before, allow_nil: true }
   enum payment_phase: { requested: 0, extended: 1 }
 
