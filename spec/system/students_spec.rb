@@ -6,7 +6,7 @@ RSpec.feature 'Students', type: :system do
     zoom_mock
   end
 
-  it 'reserve a new lesson as student' do
+  xit 'reserve a new lesson as student' do
     student = FactoryBot.create(:student, tickets: 1)
     lesson = FactoryBot.create(:lesson, language_id: 1)
     perform_enqueued_jobs do

@@ -5,7 +5,7 @@ RSpec.feature 'Teachers', type: :system do
     zoom_mock
   end
 
-  it 'creates a new lesson as teacher' do
+  xit 'creates a new lesson as teacher' do
     teacher = FactoryBot.create(:teacher)
     sign_in_as_teacher teacher
     expect {
@@ -36,7 +36,7 @@ RSpec.feature 'Teachers', type: :system do
     expect(page).to have_selector "img[alt$='photo']"
   end
 
-  it 'adds a feedback into lesson as teacher' do
+  xit 'adds a feedback into lesson as teacher' do
     travel_to 2.hours.ago
     reservation = FactoryBot.create(:reservation)
     travel_back
@@ -60,7 +60,7 @@ RSpec.feature 'Teachers', type: :system do
     expect(page).to have_content feedback_content
   end
 
-  it 'adds a report into lesson as teacher' do
+  xit 'adds a report into lesson as teacher' do
     travel_to 2.hours.ago
     reservation = FactoryBot.create(:reservation)
     travel_back

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Reservation, type: :model do
+RSpec.xdescribe Reservation, type: :model do
   before do
     zoom_mock
   end

@@ -5,14 +5,14 @@ RSpec.describe Report, type: :model do
     zoom_mock
   end
 
-  it 'generates associated data from a factory' do
+  xit 'generates associated data from a factory' do
     travel_to 2.hours.ago
     reservation = FactoryBot.create(:reservation)
     travel_back
     FactoryBot.create(:report, lesson: reservation.lesson)
   end
 
-  it 'is invalid with empty content' do
+  xit 'is invalid with empty content' do
     travel_to 2.hours.ago
     reservation = FactoryBot.create(:reservation)
     travel_back
@@ -29,7 +29,7 @@ RSpec.describe Report, type: :model do
     expect(report.errors[:lesson]).to include('予約されていないレッスンにはレポートを入力できません')
   end
 
-  it 'is invalid with lesson not finished' do
+  xit 'is invalid with lesson not finished' do
     reservation = FactoryBot.create(:reservation)
     report = FactoryBot.build(:report, lesson: reservation.lesson)
     report.valid?
