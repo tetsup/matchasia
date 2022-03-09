@@ -4,4 +4,4 @@
 = simple_form_for @lesson, url: teachers_lessons_path, method: :post do |f|
   = f.input :start_time, use_month_numbers: true, start_year: Date.today.year, minute_step: 60, label: '開始日時'
   = f.association :language, label: '言語', class: 'form-control'
-  = f.button :submit, '送信', class: 'btn-primary'
+  = render partial: 'create_button', locals: { f: f }

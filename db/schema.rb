@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_23_141441) do
+ActiveRecord::Schema.define(version: 2022_02_24_033136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,18 @@ ActiveRecord::Schema.define(version: 2021_12_23_141441) do
     t.index ["teacher_id"], name: "index_lessons_on_teacher_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.string "payment_intent"
+    t.bigint "price_id", null: false
+    t.integer "payment_phase", default: 0, null: false
+    t.integer "tickets_before"
+    t.integer "tickets_after"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["student_id"], name: "index_payments_on_student_id"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.bigint "lesson_id"
     t.text "content"
@@ -85,6 +97,8 @@ ActiveRecord::Schema.define(version: 2021_12_23_141441) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "start_url", null: false
+    t.integer "tickets_before"
+    t.integer "tickets_after"
     t.index ["lesson_id"], name: "index_reservations_on_lesson_id"
     t.index ["student_id"], name: "index_reservations_on_student_id"
   end
@@ -99,6 +113,7 @@ ActiveRecord::Schema.define(version: 2021_12_23_141441) do
     t.integer "tickets", default: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "stripe_customer_id"
     t.index ["email"], name: "index_students_on_email", unique: true
     t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true
     t.index ["username"], name: "index_students_on_username", unique: true
@@ -128,6 +143,7 @@ ActiveRecord::Schema.define(version: 2021_12_23_141441) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "lessons", "teachers"
+  add_foreign_key "payments", "students"
   add_foreign_key "reservations", "lessons"
   add_foreign_key "reservations", "students"
 end

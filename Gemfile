@@ -16,6 +16,7 @@ gem 'rounding'
 gem 'sass-rails'
 gem 'simple_form'
 gem 'stripe'
+gem 'stripe_event'
 gem 'turbolinks'
 gem 'webpacker', '~> 5.0'
 gem 'zoom_rb'
@@ -40,6 +41,7 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'stripe-ruby-mock'
   gem 'webdrivers'
 end
 

@@ -1,0 +1,7 @@
+- if lessons_count.nil?
+  %td -
+- else
+  %td{class: "#{style_class_by_reserved_rate(reserved_rate(reservations_count, lessons_count))}"}
+    #{reservations_count || 0} / #{lessons_count}
+    %br
+    (#{reserved_rate(reservations_count, lessons_count)}%)

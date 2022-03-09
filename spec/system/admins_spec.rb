@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.feature 'Admins', type: :system do
   include ActiveJob::TestHelper
+  before do
+    zoom_mock
+  end
+
   it 'creates a new teacher as admin' do
     admin = FactoryBot.create(:admin)
     teacher_username = 'TestTeacher'

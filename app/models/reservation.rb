@@ -1,18 +1,20 @@
 class Reservation < ApplicationRecord
-  validates :lesson, uniqueness: true
-  validates :start_url, :join_url, {
-    presence: true,
-    format: { with: %r{https?://.+} },
-    uniqueness: true
-  }
+  belongs_to :student
+  belongs_to :lesson
+
+  with_options presence: true do
+    validates :lesson, uniqueness: true
+    validates :tickets_before, :tickets_after
+    validates :start_url, :join_url, {
+      format: { with: %r{https?://.+} },
+      uniqueness: true
+    }
+  end
   validate :lesson_start_time_expect_to_be_after_now
 
   def lesson_start_time_expect_to_be_after_now
     errors.add(:lesson, '開始時刻を過ぎているレッスンは予約できません') if lesson.started?
   end
-
-  belongs_to :student
-  belongs_to :lesson
 
   scope :load_lesson_not_started, lambda {
     eager_load(:lesson)
@@ -20,18 +22,48 @@ class Reservation < ApplicationRecord
   }
   scope :sorted, -> { order('lessons.start_time asc') }
 
-  def assign_zoom_url!
-    if lesson.valid? && !Reservation.where(lesson: lesson).exists?
-      zoom_client = Zoom.new
-      user_id = zoom_client.user_list['users'].first['id']
-      meeting = zoom_client.meeting_create(
-        user_id: user_id,
-        start_time: lesson.start_time.in_time_zone('UTC'),
-        duration: Lesson::MEETING_DURATION_MINUTES
-      )
-      self.start_url = meeting['start_url']
-      self.join_url = meeting['join_url']
+  def reserve
+    return false unless lesson.valid?
+
+    return false unless spend_ticket
+
+    assign_zoom_meeting
+    return false unless valid?
+
+    ActiveRecord::Base.transaction do
+      student.save!
+      save!
+    rescue ActiveRecord::RecordInvalid
+      return false
     end
-    nil
+    reserved_mail
+    true
+  end
+
+  def spend_ticket
+    self.tickets_before = student.tickets
+    student.tickets -= 1
+    self.tickets_after = student.tickets
+    # 本当はstudent.valid?とDRYにしたいが、ticketsのバリデーションだけ判定するのが難しい
+    student.tickets >= 0
+  end
+
+  def create_zoom_meeting
+    Zoom.new.meeting_create(
+      user_id: lesson.teacher.zoom_user_id,
+      start_time: lesson.start_time.in_time_zone('UTC'),
+      duration: Lesson::MEETING_DURATION_MINUTES
+    )
+  end
+
+  def assign_zoom_meeting
+    meeting = create_zoom_meeting
+    self.start_url = meeting['start_url']
+    self.join_url = meeting['join_url']
+  end
+
+  def reserved_mail
+    TeacherMailer.reserve(self).deliver_later
+    StudentMailer.reserve(self).deliver_later
   end
 end

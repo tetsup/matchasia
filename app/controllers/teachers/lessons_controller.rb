@@ -1,5 +1,7 @@
 class Teachers::LessonsController < ApplicationController
   before_action :authenticate_teacher!
+  before_action :alert_zoom_user, if: proc { request.get? }
+  before_action :authenticate_zoom_user!, if: proc { request.post? }, except: [:recreate_zoom_user]
 
   def index
     @lessons = current_teacher
@@ -57,6 +59,16 @@ class Teachers::LessonsController < ApplicationController
     end
   end
 
+  def recreate_zoom_user
+    if current_teacher.create_zoom_user
+      flash[:notice] = 'Zoomユーザーを作成、もしくは招待メールを再送信しました'
+    else
+      redirect_to teachers_lessons_path, alert: 'Zoomユーザーは既に有効化されています'
+    end
+  rescue Zoom::Error => e
+    redirect_to teachers_lessons_path, danger: "Zoomユーザーの作成に失敗しました(#{e.message})"
+  end
+
   private
 
   def lesson_params
@@ -72,5 +84,22 @@ class Teachers::LessonsController < ApplicationController
     params.fetch(:lessons).permit(:language_id).tap do |whitelisted|
       whitelisted[:start_time] = params[:lessons][:start_time]
     end
+  end
+
+  def alert_zoom_user
+    if current_teacher.zoom_user_available?
+      @disabled = false
+    else
+      flash[:alert] = 'Zoomユーザーが有効化されていません この状態では、レッスン作成が出来ず、また、予約が失敗します'
+      flash[:alert] += view_context.link_to 'メール再送信', recreate_zoom_user_teachers_lessons_path, method: :post
+      flash[:alert] = flash[:alert].html_safe
+      @disabled = true
+    end
+  end
+
+  def authenticate_zoom_user!
+    return if current_teacher.zoom_user_available?
+
+    redirect_back fallback_location: teachers_lessons_path
   end
 end

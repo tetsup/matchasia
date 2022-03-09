@@ -1,29 +1,26 @@
 class Student < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  validates :username,
-    presence: true,
-    length: { in: 3..20 },
-    format: { with: /\A[a-zA-Z][a-zA-Z0-9]+\z/ },
-    uniqueness: true
-  validates :tickets,
-    presence: true,
-    numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 0
-    }
   has_many :reservations
+  has_many :payments
 
-  INSTANT_TICKET_PRODUCTS = {
-    1 => { amount: 2200, currency: 'jpy', description: 'チケット1枚' },
-    3 => { amount: 5500, currency: 'jpy', description: 'チケット3枚' },
-    5 => { amount: 8250, currency: 'jpy', description: 'チケット5枚' }
-  }
+  with_options presence: true do
+    validates :username,
+      length: { in: 3..20 },
+      format: { with: /\A[a-zA-Z][a-zA-Z0-9]+\z/ },
+      uniqueness: true
+    validates :tickets,
+      numericality: {
+        only_integer: true,
+        greater_than_or_equal_to: 0
+      }
+  end
 
-  def buy_tickets!(ticket_qty, email, token)
-    product = INSTANT_TICKET_PRODUCTS[ticket_qty]
-    customer = Stripe::Customer.create({ email: email, source: token })
-    Stripe::Charge.create(product.merge({ customer: customer.id }))
-    self.tickets += ticket_qty
+  def create_stripe_customer_id!
+    return if stripe_customer_id.present?
+
+    customer = Stripe::Customer.create({ email: email })
+    self.stripe_customer_id = customer.id
+    save!
   end
 end

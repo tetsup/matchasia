@@ -14,4 +14,4 @@
         %th
           = link_to month.to_s(:month_jp), by_teacher_admins_reservations_path(create_daily_query_params(month))
         - @teachers.each do |teacher|
-          = colored_td(@reservations_counts[[month + 9.hours, teacher.id]], @lessons_counts[[month + 9.hours, teacher.id]])
+          = render 'td_reserved_rate', reservations_count: @reservations_counts[[month + 9.hours, teacher.id]], lessons_count: @lessons_counts[[month + 9.hours, teacher.id]]

@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Teacher, type: :model do
+  before do
+    zoom_mock
+  end
+
   it 'is valid with a username, email, and password' do
     teacher = FactoryBot.build(:teacher)
     expect(teacher).to be_valid

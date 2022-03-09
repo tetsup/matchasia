@@ -26,4 +26,4 @@
             - (@query_params.start_hour..@query_params.end_hour).each do |hour|
               %td
                 = f.input "start_time[#{date.to_s(:date_query)} #{hour}]", as: :boolean, label: false, input_html: { checked: true }
-    = f.button :submit, '一括登録', class: 'btn-primary'
+    = render partial: 'create_button', locals: { f: f }
