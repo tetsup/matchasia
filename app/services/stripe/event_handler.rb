@@ -14,5 +14,9 @@ module Stripe
     def handle_payment_intent_succeeded(event)
       Payment.from_event(event).extend_tickets!
     end
+
+    def handle_payment_intent_canceled(event)
+      Peyment.from_event(event).cancel_payment_intent!
+    end
   end
 end

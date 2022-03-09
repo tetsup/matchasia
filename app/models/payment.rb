@@ -11,7 +11,7 @@ class Payment < ApplicationRecord
   end
   validates :tickets_before, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :tickets_after, numericality: { greater_than: :tickets_before, allow_nil: true }
-  enum payment_phase: { requested: 0, extended: 1 }
+  enum payment_phase: { requested: 0, extended: 1, canceled: -1 }
 
   TAX_ID = 'txr_1Jy6D3CGxjuXgfl8RakSQn6O'.freeze
 
@@ -38,7 +38,7 @@ class Payment < ApplicationRecord
     payment.student.stripe_customer_id != webhook_event.data.object.customer && (raise ActionController::BadRequest)
     payment
   rescue StandardError => e
-    logger.fatal 'payment_intent.succeededイベントのデータ不整合'
+    logger.fatal 'webhookイベントのデータ不整合'
     logger.fatal webhook_event
     logger.fatal e.backtrace.join('\n')
     AdminMailer.failed_to_payment_verification(webhook_event)
@@ -61,5 +61,14 @@ class Payment < ApplicationRecord
       AdminMailer.failed_to_extend_tickets(self)
       raise
     end
+  end
+
+  def cancel_payment_intent!
+    canceled!
+    save!
+  rescue StandardError => e
+    logger.error "チケット購入時のキャンセル処理でエラー(payment_intent: #{payment_intent})"
+    logger.error e.backtrace.join('\n')
+    raise
   end
 end
