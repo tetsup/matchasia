@@ -19,7 +19,7 @@ class Students::PaymentsController < ApplicationController
   end
 
   def success
-    flash[:notice] = 'チケットを購入しました'
+    flash[:notice] = 'チケットを購入しました 決済情報が届き次第、チケットが追加されます'
     redirect_to new_students_payment_path
   end
 
