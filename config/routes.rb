@@ -41,6 +41,7 @@ Rails.application.routes.draw do
         get :bulk_search
         get :bulk_new
         post :bulk_create
+        post :recreate_zoom_user
       end
       resource :feedback, only: [:new, :edit, :create], module: :lessons
       resource :report, only: [:new, :edit, :create], module: :lessons

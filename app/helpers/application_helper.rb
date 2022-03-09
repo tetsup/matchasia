@@ -8,4 +8,15 @@ module ApplicationHelper
       end
     end
   end
+
+  def bootstrap_class(name)
+    case name
+    when 'notice'
+      'info'
+    when 'alert'
+      'warning'
+    else
+      name
+    end
+  end
 end

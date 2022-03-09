@@ -31,9 +31,10 @@ class Teacher < ApplicationRecord
   end
 
   def create_zoom_user
-    return if zoom_user_available?
+    return false if zoom_user_available?
 
     Zoom.new.user_create(action: 'create', type: 1, email: email)
+    true
   rescue Zoom::Error => e
     logger.error e.message
     AdminMailer.failed_to_add_zoom_user(self)
